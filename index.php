@@ -1,4 +1,4 @@
-<?php include('class/database.php'); ?>
+<? include('class/database.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +94,7 @@
 <script src="js/scripts.js"></script>
 
 </body>
-<?php
+<?
 if (isset($_POST['sub1'])) {
     $action = new Action();
     $user = $action->cleansql($_POST['user']);
