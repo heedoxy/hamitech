@@ -67,9 +67,9 @@ include('class/database.php');
         <nav class="navbar top-navbar navbar-expand-md navbar-light">
             <!-- Logo -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.php">
                     <!-- Logo text -->
-                    <span><img src="images/logoofogh.png" alt="homepage" class="dark-logo"/></span>
+                    <span><img src="images/hamitech.png" alt="homepage" class="dark-logo"/></span>
                 </a>
             </div>
             <!-- End Logo -->
@@ -90,7 +90,7 @@ include('class/database.php');
                     <!-- Profile -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false"><img src="images/users/2.jpg" alt="user"
+                           aria-haspopup="true" aria-expanded="false"><img src="images/avatar.jpg" alt="user"
                                                                            class="profile-pic"/></a>
                         <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                             <ul class="dropdown-user">
