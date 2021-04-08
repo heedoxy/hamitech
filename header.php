@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <?
-include('class/database.php');
+require_once "class/database.php";
 $action = new Action();
 if(!isset($_SESSION['user_id'])){
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
