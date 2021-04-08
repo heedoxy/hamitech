@@ -1,17 +1,20 @@
-<?
-include('header.php');
-$edit = 0;
+<? include('class/database.php');
+
 $connect = new MyDB();
 $con = $connect->connect();
 $action = new Action();
 
+// ----------- check error ---------------------------------------------------------------------------------------------
 $error=0;
 if(isset($_SESSION['error'])) {
     $error=1;
     $error_val = $_SESSION['error'];
     unset($_SESSION['error']);
 }
-?>
+// ----------- check error ---------------------------------------------------------------------------------------------
+
+// ----------- start html :) ------------------------------------------------------------------------------------------
+include('header.php'); ?>
 
     <div class="page-wrapper">
 
@@ -106,6 +109,4 @@ if(isset($_SESSION['error'])) {
 
     </div>
 
-<?
-include('footer.php');
-?>
+<?include('footer.php');?>
