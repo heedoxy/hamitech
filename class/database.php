@@ -209,13 +209,13 @@ class Action
         return 0;
     }
 
-    public function user_add($fullname, $codemeli, $mobile ,$phone, $pin, $bdate, $status) {
+    public function user_add($fullname, $codemeli ,$phone, $pin, $bdate, $status) {
         $now=strtotime(date('Y-m-d H:i:s'));
 
         $result = $this->_conn->query("INSERT INTO `tbl_user`
-        (`fullname`, `codemeli`, `mobile`, `phone`, `pin`, `bdate`, `status`, `cdate`) 
+        (`fullname`, `codemeli`, `phone`, `pin`, `bdate`, `status`, `cdate`) 
         VALUES
-	    ('$fullname','$codemeli','$mobile',$phone','$pin','$bdate','$status','$now')");
+	    ('$fullname','$codemeli',$phone','$pin','$bdate','$status','$now')");
 
         if (!$result) {
             echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
@@ -225,11 +225,10 @@ class Action
         return $this->_conn->insert_id;
     }
 
-    public function user_edit($id, $fullname, $codemeli, $mobile ,$phone, $pin, $bdate, $status) {
+    public function user_edit($id, $fullname, $codemeli ,$phone, $pin, $bdate, $status) {
         $result = $this->_conn->query("UPDATE `tbl_user` SET 
         `fullname`='$fullname',
         `codemeli`='$codemeli',
-        `mobile`='$mobile',
         `phone`='$phone',
         `pin`='$pin',
         `bdate`='$bdate',
