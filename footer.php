@@ -35,7 +35,7 @@
 
 <!-- End Container fluid  -->
 <!-- footer -->
-<footer class="footer" style="padding-left: 261px;"> طراحی شده توسط <a href="http://hamitec.ir">حامی تک</a></footer>
+<footer class="footer" style="padding-left: 261px;"> طراحی شده توسط <a href="http://hamitec.ir">حامی تک</a> <a href="http://XeoHad.ir">:)</a></footer>
 <!-- End footer -->
 </div>
 <!-- End Page wrapper  -->
