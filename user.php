@@ -45,8 +45,8 @@ if(isset($_SESSION['error'])) {
             <div class="col-md-12 align-self-center text-right">
 
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">کاربران</a></li>
+                    <li class="breadcrumb-item"><a href="panel.php">خانه</a></li>
+                    <li class="breadcrumb-item"><a href="user-list.php">کاربران</a></li>
                     <?php if($edit) { ?>
                         <li class="breadcrumb-item"><a href="javascript:void(0)">ثبت</a></li>
                     <?php } else { ?>
