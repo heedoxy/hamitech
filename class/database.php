@@ -7,7 +7,7 @@ session_start();
 include('jdf.php');
 date_default_timezone_set("Asia/Tehran");
 
-class DB extends mysqli
+class DB
 {
 
     protected $_DB_HOST = 'localhost';
@@ -18,31 +18,33 @@ class DB extends mysqli
 
     public function __construct()
     {
-        $this->connection = mysqliconnectionect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS);
+        $this->connection = mysqli_connect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS,  $this->_DB_NAME);
         if ($this->connection) {
             $this->connection->query("SET NAMES 'utf8'");
             $this->connection->query("SET CHARACTER SET 'utf8'");
             $this->connection->query("SET character_setconnectionection = 'utf8'");
         }
-        if (!mysqli_select_db($this->connection, $this->_DB_NAME)) {
-            die("1st time failed<br>");
-        }
-        date_default_timezone_set("Asia/Tehran");
         return $this->connection;
     }
-    
+
+    public function connect()
+    {
+        return $this->connection;
+    }
+
 }
 
 class Action
 {
 
-    private $connection;
+    public $connection;
 
     public function __construct()
     {
-        $this->connection = new DB();
+        $db = new DB();
+        $this->connection = $db->connect();
     }
-    
+
     public function result($result)
     {
         if (!$result) {
@@ -51,15 +53,15 @@ class Action
         }
         return 1;
     }
-    
+
     public function get_data($table, $id, $data)
     {
-        $result = $this->connection->query("SELECT * FROM $table WHERE id='$id'");
+        $result = $this->connection->query("SELECT * FROM `$table` WHERE id='$id'");
         if (!$this->result($result)) return 0;
         $row = $result->fetch_object();
         return $row->$data;
     }
-    
+
     public function remove_data($table,$id)
     {
         $result = $this->connection->query("DELETE FROM `$table` WHERE id='$id'");
