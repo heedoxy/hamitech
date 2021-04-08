@@ -83,7 +83,7 @@ $user_id = $_SESSION['user_id'];
             <div class="navbar-header">
                 <a class="navbar-brand" href="panel.php">
                     <!-- Logo text -->
-                    <span><img src="images/hamitech.png" alt="homepage" height="70" class="dark-logo"/></span>
+                    <span><img src="images/hamitech.png" alt="homepage" height="50" class="dark-logo"/></span>
                 </a>
             </div>
             <!-- End Logo -->
