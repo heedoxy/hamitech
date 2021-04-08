@@ -52,6 +52,7 @@ class Action
             echo "Error NO : $errorno";
             echo "<br>";
             echo "Error Message : $error";
+            echo "<hr>";
             return 0;
         }
         return 1;
