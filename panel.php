@@ -11,7 +11,6 @@ include('header.php');
             <div class="col-md-12 align-self-center text-right">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">داشبورد</a></li>
                 </ol>
             </div>
         </div>
