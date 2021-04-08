@@ -76,7 +76,6 @@ $user_id = $_SESSION['user_id'];
 <div id="main-wrapper">
     <!-- header header  -->
     <div class="header">
-        <li class="nav-item m-l-10"> <a class="nav-link sidebartoggler hidden-sm-down text-muted   close_side_header" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
 
         <nav class="navbar top-navbar navbar-expand-md navbar-light">
             <!-- Logo -->
