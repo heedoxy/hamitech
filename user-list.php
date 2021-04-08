@@ -20,7 +20,7 @@ if(isset($_SESSION['error'])) {
                 <h3 class="text-primary">کاربران</h3> </div>
             <div class="col-md-12 align-self-center text-right">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
+                    <li class="breadcrumb-item"><a href="panel.php">خانه</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">کاربران</a></li>
                 </ol>
             </div>
@@ -51,7 +51,7 @@ if(isset($_SESSION['error'])) {
 
                             <div class="table-responsive m-t-5">
                                 <table id="example23"
-                                       class="display nowrap table table-hover table-striped table-bordered"
+                                       class="display nowrap table table-hover table-striped"
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
