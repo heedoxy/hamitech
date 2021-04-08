@@ -1,6 +1,4 @@
-<?
-include('header.php');
-?>
+<? include('header.php'); ?>
     <!-- Page wrapper  -->
     <div class="page-wrapper">
 
