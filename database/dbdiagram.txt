@@ -1,0 +1,24 @@
+// https://dbdiagram.io/
+
+Table tbl_admin{
+  id int [pk, increment] // auto-increment
+  fullname varchar(100)
+  phone varchar(20)
+  username varchar(100)
+  password varchar(100)
+  last_ip text
+  cdate bigint
+  status int
+}
+
+
+Table tbl_user{
+  id int [pk, increment] // auto-increment
+  fullname varchar(100)
+  codemeli varchar(10)
+  phone varchar(20)
+  pin varchar(100)
+  bdate bigint
+  cdate bigint
+  status int
+}
