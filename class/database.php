@@ -66,6 +66,11 @@ class Action
         return $row->{$data};
     }
 
+    public function get_date_shamsi($timestamp)
+    {
+        return $this->miladi_to_shamsi(date('Y-m-d', $timestamp));
+    }
+
     public function remove_data($table, $id)
     {
         $result = $this->connection->query("DELETE FROM `$table` WHERE id='$id'");
