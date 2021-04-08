@@ -181,29 +181,32 @@ class Action
         return $this->get_data("tbl_admin", $id, $data);
     }
 
-    public function user_add($fullname, $codemeli, $phone, $pin, $bdate, $status)
+    public function user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
     {
         $now = time();
 
         $result = $this->connection->query("INSERT INTO `tbl_user`
-        (`fullname`, `codemeli`, `phone`, `pin`, `bdate`, `status`, `cdate`) 
+        (`first_name`,`last_name`,`national_code`,`phone`,`username`,`password`,`birthday`,`status`,`created_at`) 
         VALUES
-	    ('$fullname','$codemeli','$phone','$pin','$bdate','$status','$now')");
-
+	    ('$first_name','$last_name','$national_code','$phone','$username','$password','$birthday','$status','$now')");
         if (!$this->result($result)) return 0;
 
         return $this->connection->insert_id;
     }
 
-    public function user_edit($id, $fullname, $codemeli, $phone, $pin, $bdate, $status)
+    public function user_edit($id, $first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
     {
+        $now = time();
         $result = $this->connection->query("UPDATE `tbl_user` SET 
-        `fullname`='$fullname',
-        `codemeli`='$codemeli',
+        `first_name`='$first_name',
+        `last_name`='$last_name',
+        `national_code`='$national_code',
         `phone`='$phone',
-        `pin`='$pin',
-        `bdate`='$bdate',
-        `status`='$status'
+        `username`='$username',
+        `password`='$password',
+        `birthday`='$birthday',
+        `status`='$status',
+        `updated_at`='$now'
         WHERE `id` ='$id'");
 
         if (!$this->result($result)) return 0;
