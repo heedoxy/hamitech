@@ -93,12 +93,13 @@ class Action
         return $this->clean($_REQUEST[$name], $status);
     }
 
-    public function get_date_miladi($name)
+    public function request_date($name)
     {
-        $name = $this->request('birthday');
+        $name = $this->request('birthday', false);
         $name = $this->miladi_to_shamsi($name);
         return strtotime($name);
     }
+
 
     public function shamsi_to_miladi($date)
     {
