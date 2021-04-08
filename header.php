@@ -32,6 +32,7 @@ if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
     <script src="js/select2.full.js"></script>
 
     <link type="text/css" rel="stylesheet" href="css/kamadatepicker.css"/>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"/>
 
     <script src="js/kamadatepicker.js"></script>
 
