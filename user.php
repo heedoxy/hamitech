@@ -89,8 +89,8 @@ if(isset($_SESSION['error'])) {
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="text" name="mobile" class="form-control input-default " placeholder="تلفن همراه"
-                                               value="<? if($edit) echo $row['mobile']; ?>" >
+                                        <input type="text" name="phone" class="form-control input-default " placeholder="تلفن همراه"
+                                               value="<? if($edit) echo $row['phone']; ?>" >
                                     </div>
 
                                     <div class="form-group">
@@ -140,9 +140,9 @@ if(isset($_POST['submit'])){
 
     if($edit) {
         $id=$action->cleansql($_GET['edit']);
-        $command = $action -> user_edit($id, $fullname, $codemeli, $mobile, $pin, $bdate, $status);
+        $command = $action -> user_edit($id, $fullname, $codemeli, $phone, $pin, $bdate, $status);
     } else {
-        $command = $action -> user_add($fullname, $codemeli, $mobile, $pin, $bdate, $status);
+        $command = $action -> user_add($fullname, $codemeli, $phone, $pin, $bdate, $status);
     }
 
     if($command){
