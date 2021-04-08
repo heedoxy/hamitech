@@ -24,7 +24,6 @@ class DB
             $this->connection->query("SET CHARACTER SET 'utf8'");
             $this->connection->query("SET character_setconnectionection = 'utf8'");
         }
-        return $this->connection;
     }
 
     public function connect()
