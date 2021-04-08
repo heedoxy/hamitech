@@ -96,7 +96,7 @@ class Action
     public function request_date($name)
     {
         $name = $this->request('birthday', false);
-        $name = $this->miladi_to_shamsi($name);
+        $name = $this->shamsi_to_miladi($name);
         return strtotime($name);
     }
 
