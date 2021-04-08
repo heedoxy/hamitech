@@ -56,8 +56,8 @@ $action = new Action();
 
                                             <td><? echo $counter++; ?></td>
                                             <td><? echo $row[1] ?></td>
-                                            <td><? echo $row[2] ?></td>
                                             <td><? echo $row[3] ?></td>
+                                            <td><? echo $row[2] ?></td>
                                             <td><a href="user.php?action=edit&id=<? echo $row[0]; ?>"><i
                                                         class="fa fa-pencil-square-o"></i></a></td>
                                             <td class="text-center">
