@@ -105,7 +105,7 @@ $con=$connect->connect();
                                     <div class="form-group">
                                         <input type="text" name="bdate" id="date_start" class="form-control input-default " placeholder="تاریخ تولد"
                                             <?
-                                            echo ($edit==1 ? 'value="'.$row[4].'"' : '');
+                                            echo ($edit==1 ? 'value="'.$action->condatesh(date("Y-m-d",$row[4])).'"' : '');
                                             ?> required>
                                     </div>
 
@@ -172,6 +172,8 @@ if(isset($_POST['submit'])){
     $phone=$action->cleansql($_POST['phone']);
     $code=$action->cleansql($_POST['code']);
     $bdate=$action->cleansql($_POST['bdate']);
+    $bdate=$action->condate($bdate);
+    $bdate=strtotime($bdate);
     $status=$action->cleansql($_POST['status']);
 
     $addmatch = $action->user_add($name, $phone, $code, $bdate, $status);
@@ -190,6 +192,8 @@ if(isset($_POST['subedit'])){
     $phone=$action->cleansql($_POST['phone']);
     $code=$action->cleansql($_POST['code']);
     $bdate=$action->cleansql($_POST['bdate']);
+    $bdate=$action->condate($bdate);
+    $bdate=strtotime($bdate);
     $status=$action->cleansql($_POST['status']);
 
     $editcat = $action->edit_user($id, $name, $phone, $code, $bdate, $status);
