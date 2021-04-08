@@ -1,7 +1,7 @@
 <? include('class/database.php'); ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -99,8 +99,7 @@ if (isset($_POST['sub1'])) {
     $action = new Action();
     $user = $action->cleansql($_POST['user']);
     $pass = $action->cleansql($_POST['pass']);
-
-    if ($action->adminlogin($user, $pass)) {
+    if ($action->admin_login($user,$pass)){
         echo "<script type='text/javascript'>window.location.href = 'panel.php';</script>";
     } else {
         echo "<script type='text/javascript'>window.location.href = 'index.php?error=1';</script>";
