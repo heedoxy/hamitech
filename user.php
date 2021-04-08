@@ -59,9 +59,7 @@ if (isset($_POST['submit'])) {
     } else {
         $_SESSION['error'] = 1;
     }
-
-    header("Location : user.php?edit=$command");
-
+    
 }
 // ----------- add or edit ---------------------------------------------------------------------------------------------
 
@@ -155,9 +153,12 @@ include('header.php'); ?>
                                     </div>
 
                                     <div class="form-actions">
-                                        <input type="checkbox" class="float-right m-1" name="status" value="1"
-                                            <? if ($edit && $row['status']) echo "checked"; ?>>
-                                        <label class="float-right">فعال</label>
+
+                                        <label class="float-right">
+                                            <input type="checkbox" class="float-right m-1" name="status" value="1"
+                                                <? if ($edit && $row['status']) echo "checked"; ?> >
+                                            فعال
+                                        </label>
 
                                         <button type="submit" name="submit" class="btn btn-success sweet-success"><i
                                                     class="fa fa-check"></i> ثبت
