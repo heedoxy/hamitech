@@ -58,25 +58,19 @@ class Action
         date_default_timezone_set("Asia/Tehran");
     }
 
-    //This is a HORRIBLE way to check your login. Please change your logic here. I am just kind of re-using what you got
-    public function ownerlog($username, $password)
-    {
-        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE username ='$username' AND password='$password'");
-
-        if (!$result) {
-            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
-            return false;
-        }
-
-        return $result->fetch_row() > 0;
-    }
-
     public function cleansql($string)
     {
         $string = htmlspecialchars($string);
         $string = stripslashes($string);
         $string = strip_tags($string);
         $string = mysqli_real_escape_string($this->_conn, $string);
+        return $string;
+    }
+
+
+    public function cleantext($string) {
+        $string = stripslashes($string);
+        $string = mysqli_real_escape_string($this->_conn,$string);
         return $string;
     }
 
@@ -100,6 +94,15 @@ class Action
         $b = gregorian_to_jalali($year, $month, $day, $mod = '-');
         $f = $b[0] . '/' . $b[1] . '/' . $b[2];
         return $f;
+    }
+
+    public function tbl_counter($tbl) {
+        $result = $this->_conn->query("SELECT * FROM $tbl");
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+        return mysqli_num_rows($result);
     }
 
     public function send_sms($mobile, $textMessage)
@@ -141,64 +144,106 @@ class Action
         return $token;
     }
 
-    public function adminlogin($user, $pass)
-    {
+    public function admin_login($user,$pass) {
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE username='$user' AND password='$pass' AND status=1");
 
-        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE username='$user' AND password='$pass'");
-
-        if (!$result) {
+        if(!$result) {
             echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
-            return 1;
-        }
-        $rowcount = mysqli_num_rows($result);
-        $rowd = mysqli_fetch_assoc($result);
-        if ($rowcount > 0) {
-            $_SESSION['adminlog'] = $rowd['id'];
-            return 1;
-        } else {
             return 0;
         }
+
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+
+        if($rowcount>0){
+            $this -> admin_update_last_login($rowd['id']);
+            $_SESSION['user_ll'] = $this->admin_get_last_login($rowd['id']);
+            $_SESSION['user_id'] = $rowd['id'];
+            return 1;
+        }
+
+        return 0;
     }
 
-    public function add_user($name, $phone, $code, $bdate, $status)
-    {
-
-        $datenow = strtotime(date('Y-m-d H:i:s'));
-
-        $result = $this->_conn->query("INSERT INTO `tbl_user`(`name`, `phone`, `codemeli`, `bdate`, `status`, `cdate`) 
-		VALUES ('$name','$phone','$code','$bdate','$status','$datenow')");
-
-        if (!$result) {
+    public function admin_update_last_login($id) {
+        $now=strtotime(date('Y-m-d H:i:s'));
+        $result = $this->_conn->query("UPDATE tbl_admin SET last_login='$now' WHERE id='$id'");
+        if(!$result) {
             echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
             return 0;
         }
-
         return 1;
-
     }
 
-    public function edit_user($id, $name, $phone, $code, $bdate, $status)
-    {
+    public function admin_get_last_login($id) {
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE id='$id'");
 
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+
+        if($rowcount>0){
+            return $rowd['last_login'];
+        }
+        return 0;
+    }
+
+    public function admin_get_name($id) {
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE id='$id'");
+
+        if (!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+
+        if($rowcount>0){
+            return $rowd['fullname'];
+        }
+        return 0;
+    }
+
+    public function user_add($fullname, $codemeli, $mobile ,$phone, $pin, $bdate, $status) {
+        $now=strtotime(date('Y-m-d H:i:s'));
+
+        $result = $this->_conn->query("INSERT INTO `tbl_user`
+        (`fullname`, `codemeli`, `mobile`, `phone`, `pin`, `bdate`, `status`, `cdate`) 
+        VALUES
+	    ('$fullname','$codemeli','$mobile',$phone','$pin','$bdate','$status','$now')");
+
+        if (!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        return $this->_conn->insert_id;
+    }
+
+    public function user_edit($id, $fullname, $codemeli, $mobile ,$phone, $pin, $bdate, $status) {
         $result = $this->_conn->query("UPDATE `tbl_user` SET 
-          `name`='$name',
-          `phone`='$phone',
-          `codemeli`='$code',
-          `bdate`='$bdate',
-          `status`='$status'
-        WHERE id='$id'");
+        `fullname`='$fullname',
+        `codemeli`='$codemeli',
+        `mobile`='$mobile',
+        `phone`='$phone',
+        `pin`='$pin',
+        `bdate`='$bdate',
+        `status`='$status'
+        WHERE `id` ='$id'");
 
-        if (!$result) {
+        if(!$result) {
             echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
             return 0;
         }
 
-        return 1;
+        return $id;
     }
-
-    public function remove_user($id)
-    {
-
+    public function user_remove($id) {
         $result = $this->_conn->query("DELETE FROM tbl_user WHERE id=$id");
 
         if (!$result) {
@@ -208,6 +253,20 @@ class Action
 
         return 1;
     }
+
+    public function user_get_data($id, $data) {
+        $result = $this->_conn->query("SELECT * FROM tbl_user WHERE id='$id'");
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return false;
+        }
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+        if($rowcount>0){
+            return $rowd[$data];
+        }
+    }
+
 
 
 }
