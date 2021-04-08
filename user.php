@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['remove'])) {
     $id = $action->request('remove');
     $_SESSION['error'] = !$action->user_remove($id);
-    header("Location : user-list.php");
+    header("Location: user-list.php");
 }
 // ----------- delete --------------------------------------------------------------------------------------------------
 
@@ -125,6 +125,7 @@ include('header.php'); ?>
                         <? if ($row->updated_at) { ?>
                             <div class="col-lg-6">
                                 <p class="text-right m-b-0">
+                                    آخرین ویرایش :
                                     <?= $action->condatesh(date("Y-m-d", $row->updated_at)) ?>
                                 </p>
                             </div>
@@ -174,7 +175,7 @@ include('header.php'); ?>
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="text" id="date" name="bdate" class="form-control"
+                                        <input type="text" id="date" name="birthday" class="form-control"
                                                placeholder="تاریخ تولد"
                                                value="<?= ($edit) ? $action->condatesh(date('Y-m-d', $row->birthday)) : "" ?>">
                                     </div>
