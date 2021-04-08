@@ -66,7 +66,7 @@ class Action
         return $row->{$data};
     }
 
-    public function remove_data($table,$id)
+    public function remove_data($table, $id)
     {
         $result = $this->connection->query("DELETE FROM `$table` WHERE id='$id'");
         if (!$this->result($result)) return 0;
@@ -195,7 +195,7 @@ class Action
         $result = $this->connection->query("INSERT INTO `tbl_user`
         (`first_name`,`last_name`,`national_code`,`phone`,`username`,`password`,`birthday`,`status`,`created_at`) 
         VALUES
-	    ('$first_name','$last_name','$national_code','$phone','$username','$password','$birthday','$status','$now')");
+        ('$first_name','$last_name','$national_code','$phone','$username','$password','$birthday','$status','$now')");
         if (!$this->result($result)) return 0;
 
         return $this->connection->insert_id;
