@@ -215,7 +215,7 @@ class Action
         $result = $this->_conn->query("INSERT INTO `tbl_user`
         (`fullname`, `codemeli`, `phone`, `pin`, `bdate`, `status`, `cdate`) 
         VALUES
-	    ('$fullname','$codemeli',$phone','$pin','$bdate','$status','$now')");
+	    ('$fullname','$codemeli','$phone','$pin','$bdate','$status','$now')");
 
         if (!$result) {
             echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
