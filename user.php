@@ -1,26 +1,18 @@
 <? require_once "class/database.php";
 
+$database = new DB();
+$connection = $database->connect();
 $action = new Action();
-$connect = new MyDB();
-$con = $connect->connect();
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
 $edit = 0;
 if (isset($_GET['edit'])) {
     $edit = 1;
-    $id = $_GET['edit'];
-
-    $result = mysqli_query($con, "SELECT * FROM tbl_user WHERE id ='$id'");
-
-    if (!$result) {
-        echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
-        return false;
-    }
-
-    $rowcount = mysqli_num_rows($result);
-    if (!$rowcount) echo "<script type='text/javascript'>window.location.href = 'user-list.php';</script>";
-
-    $row = mysqli_fetch_assoc($result);
+    $id = $action->request('edit');
+    $result = $connection->query("SELECT * FROM tbl_user WHERE id ='$id'");
+    if (!$action->result($result)) return 0;
+    if (!$result->num_rows) header("Location: user-list.php");
+    $row = $result->fetch_object();
 }
 // ----------- get data from database when action is edit --------------------------------------------------------------
 
@@ -125,10 +117,16 @@ include('header.php'); ?>
                         <div class="col-lg-6">
                             <p class="text-right m-b-0">
                                 تاریخ ثبت :
-                                <?= $action->condatesh(date("Y-m-d", $row['cdate'])) ?>
+                                <?= $action->condatesh(date("Y-m-d", $row->created_at)) ?>
                             </p>
                         </div>
-                        <div class="col-lg-6"><p class="text-right m-b-0">آخرین ویرایش :</p></div>
+                        <? if ($row->updated_at) { ?>
+                            <div class="col-lg-6">
+                                <p class="text-right m-b-0">
+                                    <?= $action->condatesh(date("Y-m-d", $row->updated_at)) ?>
+                                </p>
+                            </div>
+                        <? } ?>
                     </div>
 
 
@@ -138,44 +136,57 @@ include('header.php'); ?>
                                 <form action="" method="post" enctype="multipart/form-data">
 
                                     <div class="form-group">
-                                        <input type="text" name="fullname" class="form-control input-default "
+                                        <input type="text" name="first_name" class="form-control input-default "
                                                placeholder="نام"
-                                               value="<? if ($edit) echo $row['fullname']; ?>">
+                                               value="<?= ($edit) ? $row->first_name : "" ?>">
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="number" name="codemeli" class="form-control" placeholder="کدملی"
-                                               value="<? if ($edit) echo $row['codemeli']; ?>">
+                                        <input type="text" name="last_name" class="form-control input-default "
+                                               placeholder="نام خانوادگی"
+                                               value="<?= ($edit) ? $row->last_name : "" ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="number" name="national_code" class="form-control"
+                                               placeholder="کدملی"
+                                               value="<?= ($edit) ? $row->national_code : "" ?>">
                                     </div>
 
                                     <div class="form-group">
                                         <input type="text" name="phone" class="form-control input-default "
                                                placeholder="تلفن همراه"
-                                               value="<? if ($edit) echo $row['phone']; ?>">
+                                               value="<?= ($edit) ? $row->phone : "" ?>">
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="text" name="pin" class="form-control input-default "
-                                               placeholder="پین"
-                                               value="<? if ($edit) echo $row['pin']; ?>">
+                                        <input type="text" name="username" class="form-control input-default "
+                                               placeholder="نام کاربری"
+                                               value="<?= ($edit) ? $row->username : "" ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="password" class="form-control input-default "
+                                               placeholder="رمز عبور"
+                                               value="<?= ($edit) ? $row->password : "" ?>">
                                     </div>
 
                                     <div class="form-group">
                                         <input type="text" id="date" name="bdate" class="form-control"
                                                placeholder="تاریخ تولد"
-                                               value="<? if ($edit) echo $action->condatesh(date('Y-m-d', $row['bdate'])); ?>">
+                                               value="<?= ($edit) ? $action->condatesh(date('Y-m-d', $row->birthday)) : "" ?>">
                                     </div>
 
                                     <div class="form-actions">
 
                                         <label class="float-right">
                                             <input type="checkbox" class="float-right m-1" name="status" value="1"
-                                                <? if ($edit && $row['status']) echo "checked"; ?> >
+                                                <? if ($edit && $row->status) echo "checked"; ?> >
                                             فعال
                                         </label>
 
-                                        <button type="submit" name="submit" class="btn btn-success sweet-success"><i
-                                                    class="fa fa-check"></i> ثبت
+                                        <button type="submit" name="submit" class="btn btn-success sweet-success">
+                                            <i class="fa fa-check"></i> ثبت
                                         </button>
                                         <a href="user-list.php"><span name="back" class="btn btn-inverse">بازگشت</span></a>
                                     </div>
@@ -188,6 +199,4 @@ include('header.php'); ?>
         </div>
         <!-- End PAge Content -->
     </div>
-
-
 <? include('footer.php'); ?>
