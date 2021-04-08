@@ -34,10 +34,7 @@ if (isset($_POST['submit'])) {
     $phone = $action->request('phone');
     $username = $action->request('username');
     $password = $action->request('password');
-
-    $birthday = $action->request('birthday');
-    $birthday = $action->condate($birthday);
-    $birthday = strtotime($birthday);
+    $birthday = $action->get_date_shamsi('birthday');
 
     $status = $action->request('status');
 
