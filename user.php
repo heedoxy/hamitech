@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
     $phone = $action->request('phone');
     $username = $action->request('username');
     $password = $action->request('password');
-    $birthday = $action->request('birthday', 'date');
+    $birthday = $action->request_date('birthday');
 
     $status = $action->request('status');
 
