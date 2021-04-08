@@ -4,18 +4,24 @@ $edit = 0;
 $connect = new MyDB();
 $con = $connect->connect();
 $action = new Action();
+
+$error=0;
+if(isset($_SESSION['error'])) {
+    $error=1;
+    $error_val = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
 ?>
 
     <div class="page-wrapper">
 
         <div class="row page-titles">
-            <div class="col-md-5 align-self-center text-right">
-                <h3 class="text-primary">لیست کاربران</h3></div>
-            <div class="col-md-7 align-self-center text-left">
+            <div class="col-md-12 align-self-center text-right">
+                <h3 class="text-primary">کاربران</h3> </div>
+            <div class="col-md-12 align-self-center text-right">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">کاربران</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">لیست کاربران</a></li>
                 </ol>
             </div>
         </div>
@@ -23,7 +29,23 @@ $action = new Action();
         <div class="container-fluid">
 
             <div class="row">
+                <a class="add-user mb-2" href="user.php">ثبت کاربر <i class="fas fa-plus"></i></a>
+            </div>
+
+            <div class="row">
                 <div class="col-12">
+
+                    <? if($error) {
+                        if($error_val){  ?>
+                            <div class="alert alert-danger">
+                                عملیات ناموفق بود .
+                            </div>
+                        <? }else{ ?>
+                            <div class="alert alert-info text-right">
+                                عملیات موفق بود .
+                            </div>
+                        <? } } ?>
+
                     <div class="card">
                         <div class="card-body">
 
@@ -33,12 +55,11 @@ $action = new Action();
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>ردیف</th>
-                                        <th>نام</th>
-                                        <th>کد ملی</th>
-                                        <th>شماره تماس</th>
-                                        <th>ویرایش</th>
-                                        <th>حذف</th>
+                                        <th class="text-center">ردیف</th>
+                                        <th class="text-center">نام</th>
+                                        <th class="text-center">کدملی</th>
+                                        <th class="text-center">وضعیت</th>
+                                        <th class="text-center">مدیریت</th>
                                     </tr>
                                     </thead>
 
@@ -50,20 +71,23 @@ $action = new Action();
                                         echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
                                         return false;
                                     }
-                                    while ($row = $result->fetch_row()) {
+                                    while($row = mysqli_fetch_assoc($result))
+                                    {
+
                                         ?>
                                         <tr class="text-center">
 
-                                            <td><? echo $counter++; ?></td>
-                                            <td><? echo $row[1] ?></td>
-                                            <td><? echo $row[3] ?></td>
-                                            <td><? echo $row[2] ?></td>
-                                            <td><a href="user.php?action=edit&id=<? echo $row[0]; ?>"><i
-                                                        class="fa fa-pencil-square-o"></i></a></td>
+                                            <td class="text-center"><? echo $counter++; ?></td>
+                                            <td class="text-center"><? echo $row['fullname']; ?></td>
+                                            <td class="text-center"><? echo $row['codemeli']; ?></td>
+                                            <td class="text-center"><?
+                                                if($row['status']==1) echo "<status-indicator positive pulse></status-indicator>";
+                                                else echo "<status-indicator negative pulse></status-indicator>";
+                                                ?></td>
                                             <td class="text-center">
-                                                <a href="user.php?action=remove&id=<? echo $row[0]; ?>">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
+                                                <a href="user.php?edit=<? echo $row['id']; ?>"><i class="fa fa-pencil-square-o"></i></a>
+                                                |
+                                                <a href="user.php?remove=<? echo $row['id']; ?>"><i class="fa fa-trash"></i></a>
                                             </td>
 
                                         </tr>
