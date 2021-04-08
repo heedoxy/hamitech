@@ -59,7 +59,7 @@ class Action
         $result = $this->connection->query("SELECT * FROM `$table` WHERE id='$id'");
         if (!$this->result($result)) return 0;
         $row = $result->fetch_object();
-        return $row->$data;
+        return $row->{$data};
     }
 
     public function remove_data($table,$id)
@@ -141,7 +141,7 @@ class Action
 
     public function admin_login($user, $pass)
     {
-        $result = $this->connection->query("SELECT * FROM tbl_admin WHERE username='$user' AND password='$pass' AND status=1");
+        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `username`='$user' AND `password`='$pass' AND status=1");
         if (!$this->result($result)) return 0;
         $rowcount = mysqli_num_rows($result);
         $row = $result->fetch_object();
@@ -174,7 +174,7 @@ class Action
 
     public function admin_get_data($id, $data)
     {
-        return $this->get_data("tbl_data", $id, $data);
+        return $this->get_data("tbl_admin", $id, $data);
     }
 
     public function user_add($fullname, $codemeli, $phone, $pin, $bdate, $status)
