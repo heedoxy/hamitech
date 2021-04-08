@@ -99,7 +99,7 @@ if(isset($_SESSION['error'])) {
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="text" id="date" name="bdate" class="form-control" placeholder="تاریخ تولد"
+                                        <input type="text" id="date_start" name="bdate" class="form-control" placeholder="تاریخ تولد"
                                                value="<? if($edit) echo $action->condatesh(date('Y-m-d', $row['bdate'])); ?>" >
                                     </div>
 
