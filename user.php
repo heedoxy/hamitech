@@ -115,23 +115,24 @@ include('header.php'); ?>
             <div class="row">
                 <div class="col-lg-6">
 
-                    <div class="row m-b-0">
-                        <div class="col-lg-6">
-                            <p class="text-right m-b-0">
-                                تاریخ ثبت :
-                                <?= $action->condatesh(date("Y-m-d", $row->created_at)) ?>
-                            </p>
-                        </div>
-                        <? if ($row->updated_at) { ?>
+                    <? if ($edit) { ?>
+                        <div class="row m-b-0">
                             <div class="col-lg-6">
                                 <p class="text-right m-b-0">
-                                    آخرین ویرایش :
-                                    <?= $action->condatesh(date("Y-m-d", $row->updated_at)) ?>
+                                    تاریخ ثبت :
+                                    <?= $action->condatesh(date("Y-m-d", $row->created_at)) ?>
                                 </p>
                             </div>
-                        <? } ?>
-                    </div>
-
+                            <? if ($row->updated_at) { ?>
+                                <div class="col-lg-6">
+                                    <p class="text-right m-b-0">
+                                        آخرین ویرایش :
+                                        <?= $action->condatesh(date("Y-m-d", $row->updated_at)) ?>
+                                    </p>
+                                </div>
+                            <? } ?>
+                        </div>
+                    <? } ?>
 
                     <div class="card">
                         <div class="card-body">
