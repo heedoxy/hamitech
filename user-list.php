@@ -1,7 +1,7 @@
 <? require_once "class/database.php";
 
-$connect = new DB();
-$connection = $connect->connect();
+$database = new DB();
+$connection = $database->connect();
 $action = new Action();
 
 // ----------- check error ---------------------------------------------------------------------------------------------
