@@ -59,7 +59,9 @@ if (isset($_POST['submit'])) {
     } else {
         $_SESSION['error'] = 1;
     }
-    
+
+    header("Location: user.php?edit=$command");
+
 }
 // ----------- add or edit ---------------------------------------------------------------------------------------------
 
@@ -118,6 +120,18 @@ include('header.php'); ?>
 
             <div class="row">
                 <div class="col-lg-6">
+
+                    <div class="row m-b-0">
+                        <div class="col-lg-6">
+                            <p class="text-right m-b-0">
+                                تاریخ ثبت :
+                                <?= $action->condatesh(date("Y-m-d", $row['cdate'])) ?>
+                            </p>
+                        </div>
+                        <div class="col-lg-6"><p class="text-right m-b-0">آخرین ویرایش :</p></div>
+                    </div>
+
+
                     <div class="card">
                         <div class="card-body">
                             <div class="basic-form">
@@ -147,7 +161,7 @@ include('header.php'); ?>
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="text" id="date_start" name="bdate" class="form-control"
+                                        <input type="text" id="date" name="bdate" class="form-control"
                                                placeholder="تاریخ تولد"
                                                value="<? if ($edit) echo $action->condatesh(date('Y-m-d', $row['bdate'])); ?>">
                                     </div>
