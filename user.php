@@ -28,22 +28,24 @@ if (isset($_SESSION['error'])) {
 // ----------- add or edit ---------------------------------------------------------------------------------------------
 if (isset($_POST['submit'])) {
 
-    $fullname = $action->request('fullname');
-    $codemeli = $action->request('codemeli');
+    $first_name = $action->request('first_name');
+    $last_name = $action->request('last_name');
+    $national_code = $action->request('national_code');
     $phone = $action->request('phone');
-    $pin = $action->request('pin');
+    $username = $action->request('username');
+    $password = $action->request('password');
 
-    $bdate = $action->request('bdate');
-    $bdate = $action->condate($bdate);
-    $bdate = strtotime($bdate);
+    $birthday = $action->request('birthday');
+    $birthday = $action->condate($birthday);
+    $birthday = strtotime($birthday);
 
     $status = $action->request('status');
 
     if ($edit) {
         $id = $action->request('edit');
-        $command = $action->user_edit($id, $fullname, $codemeli, $phone, $pin, $bdate, $status);
+        $command = $action->user_edit($id, $first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
     } else {
-        $command = $action->user_add($fullname, $codemeli, $phone, $pin, $bdate, $status);
+        $command = $action->user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
     }
 
     if ($command) {
