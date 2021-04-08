@@ -1,13 +1,12 @@
-<?
-if (!(isset($_SESSION['admin_id'])))
-    header("Location : index.php");
-
-include('class/database.php');
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
+<?
+include('class/database.php');
+if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
+    echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
+    return 0;
+}
+?>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -69,7 +68,7 @@ include('class/database.php');
             <div class="navbar-header">
                 <a class="navbar-brand" href="index.php">
                     <!-- Logo text -->
-                    <span><img src="images/hamitech.png" alt="homepage" class="dark-logo"/></span>
+                    <span><img src="images/hamitech.png" alt="homepage" height="70" class="dark-logo"/></span>
                 </a>
             </div>
             <!-- End Logo -->
