@@ -37,24 +37,24 @@ include('header.php'); ?>
 
         <div class="container-fluid">
 
+            <? if ($error) {
+                if ($error_val) { ?>
+                    <div class="alert alert-danger">
+                        عملیات ناموفق بود .
+                    </div>
+                <? } else { ?>
+                    <div class="alert alert-info text-right">
+                        عملیات موفق بود .
+                    </div>
+                <? }
+            } ?>
+
             <div class="row">
                 <a class="add-user mb-2" href="user.php"> ثبت کاربر <i class="fas fa-plus"></i></a>
             </div>
 
             <div class="row">
                 <div class="col-12">
-
-                    <? if ($error) {
-                        if ($error_val) { ?>
-                            <div class="alert alert-danger">
-                                عملیات ناموفق بود .
-                            </div>
-                        <? } else { ?>
-                            <div class="alert alert-info text-right">
-                                عملیات موفق بود .
-                            </div>
-                        <? }
-                    } ?>
 
                     <div class="card">
                         <div class="card-body">
