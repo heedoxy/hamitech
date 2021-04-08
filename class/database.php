@@ -88,7 +88,14 @@ class Action
         return $this->clean($_REQUEST[$name], $status);
     }
 
-    public function condate($date)
+    public function get_date_shamsi($name)
+    {
+        $name = $this->request('birthday');
+        $name = $this->miladi_to_shamsi($name);
+        return strtotime($name);
+    }
+
+    public function shamsi_to_miladi($date)
     {
         $pieces = explode("/", $date);
         $day = $pieces[2];
@@ -99,7 +106,7 @@ class Action
         return $f;
     }
 
-    public function condatesh($date)
+    public function miladi_to_shamsi($date)
     {
         $pieces = explode("-", $date);
         $year = $pieces[0];
