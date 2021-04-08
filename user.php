@@ -1,4 +1,4 @@
-<? include('class/database.php');
+<? require_once "class/database.php";
 
 $action = new Action();
 $connect = new MyDB();
