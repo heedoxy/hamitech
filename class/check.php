@@ -1,4 +1,4 @@
 <?
-include("db.php");
+include("database.php");
 
-$act = new Action();
+$action = new Action();
