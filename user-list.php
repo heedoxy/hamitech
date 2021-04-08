@@ -13,6 +13,13 @@ if (isset($_SESSION['error'])) {
 }
 // ----------- check error ---------------------------------------------------------------------------------------------
 
+// ----------- get data ------------------------------------------------------------------------------------------------
+$counter = 1;
+$result = $connection->query("SELET * FROM `tbl_user` ORDER BY `id` DESC");
+if (!$action->result($result)) return 0;
+
+// ----------- get data ------------------------------------------------------------------------------------------------
+
 // ----------- start html :) ------------------------------------------------------------------------------------------
 include('header.php'); ?>
 
@@ -68,11 +75,7 @@ include('header.php'); ?>
                                     </thead>
 
                                     <tbody class="text-center">
-                                    <?
-                                    $counter = 1;
-                                    $result = $connection->query("SELECT * FROM `tbl_user` ORDER BY `id` DESC");
-                                    $action->result($result);
-                                    while ($row = $result->fetch_object()) { ?>
+                                    <? while ($row = $result->fetch_object()) { ?>
                                         <tr class="text-center">
 
                                             <td class="text-center"><?= $counter++ ?></td>
@@ -98,9 +101,7 @@ include('header.php'); ?>
                                             </td>
 
                                         </tr>
-                                        <?
-                                    }
-                                    ?>
+                                    <? } ?>
                                     </tbody>
                                 </table>
                             </div>
