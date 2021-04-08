@@ -47,7 +47,11 @@ class Action
     public function result($result)
     {
         if (!$result) {
-            echo mysqli_errno($this->connection) . mysqli_error($this->connection);
+            $errorno = mysqli_errno($this->connection);
+            $error = mysqli_error($this->connection);
+            echo "Error NO : $errorno";
+            echo "<br>";
+            echo "Error Message : $error";
             return 0;
         }
         return 1;
