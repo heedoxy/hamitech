@@ -17,7 +17,6 @@ if (isset($_SESSION['error'])) {
 $counter = 1;
 $result = $connection->query("SELECT * FROM `tbl_user` ORDER BY `id` DESC");
 if (!$action->result($result)) return 0;
-
 // ----------- get data ------------------------------------------------------------------------------------------------
 
 // ----------- start html :) ------------------------------------------------------------------------------------------
