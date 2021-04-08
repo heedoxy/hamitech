@@ -22,7 +22,7 @@ $con=$connect->connect();
 
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">شرکت</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">کاربران</a></li>
                     <?php if(!isset($_GET['action'])) { ?>
                         <li class="breadcrumb-item"><a href="javascript:void(0)">افزودن کاربر</a></li>
                     <?php } else { ?>
@@ -82,13 +82,13 @@ $con=$connect->connect();
                                     <div class="form-group">
                                         <input type="text" name="name" class="form-control input-default " placeholder="نام"
                                             <?
-                                            echo ($edit==1 ? 'value="'.$row[2].'"' : '');
+                                            echo ($edit==1 ? 'value="'.$row[1].'"' : '');
                                             ?> required>
                                     </div>
 
 
                                     <div class="form-group">
-                                        <input type="text" name="codemeli" class="form-control input-default " placeholder="کد ملی"
+                                        <input type="text" name="code" class="form-control input-default " placeholder="کد ملی"
                                             <?
                                             echo ($edit==1 ? 'value="'.$row[3].'"' : '');
                                             ?> required>
@@ -97,7 +97,7 @@ $con=$connect->connect();
                                     <div class="form-group">
                                         <input type="text" name="phone" class="form-control input-default " placeholder="شماره تماس"
                                             <?
-                                            echo ($edit==1 ? 'value="'.$row[3].'"' : '');
+                                            echo ($edit==1 ? 'value="'.$row[2].'"' : '');
                                             ?> required>
                                     </div>
 
@@ -105,7 +105,7 @@ $con=$connect->connect();
                                     <div class="form-group">
                                         <input type="text" name="bdate" id="date_start" class="form-control input-default " placeholder="تاریخ تولد"
                                             <?
-                                            echo ($edit==1 ? 'value="'.$row[3].'"' : '');
+                                            echo ($edit==1 ? 'value="'.$row[4].'"' : '');
                                             ?> required>
                                     </div>
 
@@ -118,7 +118,7 @@ $con=$connect->connect();
 
                                             <option
                                                 <?
-                                                if($edit==1 && $row[7]==1)
+                                                if($edit==1 && $row[6]==1)
                                                     echo 'selected="selected"';
                                                 ?>
                                                 value="1">فعال</option>
@@ -126,7 +126,7 @@ $con=$connect->connect();
 
                                             <option
                                                 <?
-                                                if($edit==1 && $row[7]==0)
+                                                if($edit==1 && $row[6]==0)
                                                     echo 'selected="selected"';
                                                 ?>
                                                 value="0">غیرفعال</option>
