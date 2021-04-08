@@ -10,8 +10,8 @@ date_default_timezone_set("Asia/Tehran");
 Class MyDB {
 
     protected $_DB_HOST = 'localhost';
-    protected $_DB_USER = 'hamitech';
-    protected $_DB_PASS = 'hamitech';
+    protected $_DB_USER = 'root';
+    protected $_DB_PASS = '';
     protected $_DB_NAME = 'hamitech';
     protected $_conn;
 
@@ -131,6 +131,25 @@ Class Action {
 
         return $token;
     }
+
+    public function adminlogin($user,$pass) {
+
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE username='$user' AND password='$pass'");
+
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 1;
+        }
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+        if($rowcount>0){
+            $_SESSION['adminlog']=$rowd['id'];
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
 
 }
 
