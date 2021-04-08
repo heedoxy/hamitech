@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <?
 include('class/database.php');
-if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
+$action = new Action();
+if(!isset($_SESSION['user_id'])){
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
     return 0;
 }
@@ -20,10 +21,17 @@ if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
     <title>پنل مدیریت</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="css/jquery.Bootstrap-PersianDateTimePicker.css" />
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css">
     <!-- All Jquery -->
-    <script src="js/lib/jquery/jquery.min.js"></script>
+<!--    <script src="js/lib/jquery/jquery.min.js"></script>-->
+    <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"  />
 
 
     <!-- select2 -->
@@ -31,8 +39,11 @@ if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
     <script src="js/select2.min.js"></script>
     <script src="js/select2.full.js"></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/status-indicator@1.0.9/styles.css">
+
     <link type="text/css" rel="stylesheet" href="css/kamadatepicker.css"/>
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"/>
+    <script type="text/javascript" src="class/ckeditor/ckeditor.js"></script>
 
     <script src="js/kamadatepicker.js"></script>
 
