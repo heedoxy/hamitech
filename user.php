@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
     $phone = $action->request('phone');
     $username = $action->request('username');
     $password = $action->request('password');
-    $birthday = $action->get_date_shamsi('birthday');
+    $birthday = $action->request('birthday', 'date');
 
     $status = $action->request('status');
 
@@ -117,14 +117,14 @@ include('header.php'); ?>
                             <div class="col-lg-6">
                                 <p class="text-right m-b-0">
                                     تاریخ ثبت :
-                                    <?= $action->condatesh(date("Y-m-d", $row->created_at)) ?>
+                                    <?= $action->get_date_shamsi($row->created_at) ?>
                                 </p>
                             </div>
                             <? if ($row->updated_at) { ?>
                                 <div class="col-lg-6">
                                     <p class="text-right m-b-0">
                                         آخرین ویرایش :
-                                        <?= $action->condatesh(date("Y-m-d", $row->updated_at)) ?>
+                                        <?= $action->get_date_shamsi($row->updated_at) ?>
                                     </p>
                                 </div>
                             <? } ?>
@@ -175,7 +175,7 @@ include('header.php'); ?>
                                     <div class="form-group">
                                         <input type="text" id="date" name="birthday" class="form-control"
                                                placeholder="تاریخ تولد"
-                                               value="<?= ($edit) ? $action->condatesh(date('Y-m-d', $row->birthday)) : "" ?>">
+                                               value="<?= ($edit) ? $action->get_date_shamsi($row->birthday) : "" ?>">
                                     </div>
 
                                     <div class="form-actions">
