@@ -66,7 +66,7 @@ if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
         <nav class="navbar top-navbar navbar-expand-md navbar-light">
             <!-- Logo -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.php">
+                <a class="navbar-brand" href="panel.php">
                     <!-- Logo text -->
                     <span><img src="images/hamitech.png" alt="homepage" height="70" class="dark-logo"/></span>
                 </a>
@@ -116,7 +116,7 @@ if((!isset($_SESSION['adminlog']) && empty($_SESSION['adminlog']))){
                     <li><a class="has-arrow  " href="#" aria-expanded="false">
                             <i class="fa fa-tachometer"></i>
                             <span class="hide-menu">داشبورد<span
-                                        class="label label-rouded label-primary pull-right">2</span></span></a>
+                                        class="label label-rouded label-primary pull-right">x</span></span></a>
                         <ul aria-expanded="false" class="collapse">
                             <li><a href="panel.php">داشبور</a></li>
                         </ul>
