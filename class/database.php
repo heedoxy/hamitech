@@ -1,4 +1,5 @@
 <?
+// ----------- start config methods ------------------------------------------------------------------------------------
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(-1);
@@ -6,16 +7,19 @@
 session_start();
 include('jdf.php');
 date_default_timezone_set("Asia/Tehran");
+// ----------- end config methods --------------------------------------------------------------------------------------
 
+// ----------- start DB class ------------------------------------------------------------------------------------------
 class DB
 {
 
-    protected $_DB_HOST = 'localhost';
+    // ----------- properties
     protected $_DB_USER = 'root';
     protected $_DB_PASS = '';
     protected $_DB_NAME = 'hamitech';
     protected $connection;
 
+    // ----------- constructor
     public function __construct()
     {
         $this->connection = mysqli_connect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS,  $this->_DB_NAME);
@@ -26,24 +30,32 @@ class DB
         }
     }
 
+    // ----------- for return connection
     public function connect()
     {
         return $this->connection;
     }
 
 }
+// ----------- end DB class --------------------------------------------------------------------------------------------
 
+// ----------- start Action class --------------------------------------------------------------------------------------
 class Action
 {
 
+    // ----------- properties
     public $connection;
 
+    // ----------- constructor
     public function __construct()
     {
         $db = new DB();
         $this->connection = $db->connect();
     }
 
+    // ----------- start main methods ----------------------------------------------------------------------------------
+
+    // ----------- for check result of query
     public function result($result)
     {
         if (!$result) {
@@ -58,6 +70,7 @@ class Action
         return true;
     }
 
+    // ----------- get data from table
     public function get_data($table, $id)
     {
         $result = $this->connection->query("SELECT * FROM `$table` WHERE id='$id'");
@@ -66,11 +79,13 @@ class Action
         return $row;
     }
 
-    public function get_date_shamsi($timestamp)
+    // ----------- convert timestamp to shamsi date
+    public function time_to_shamsi($timestamp)
     {
         return $this->miladi_to_shamsi(date('Y-m-d', $timestamp));
     }
 
+    // ----------- remove data from table
     public function remove_data($table, $id)
     {
         $result = $this->connection->query("DELETE FROM `$table` WHERE id='$id'");
@@ -78,6 +93,7 @@ class Action
         return true;
     }
 
+    // ----------- clean strings (to prevent sql injection attacks)
     public function clean($string, $status = true)
     {
         if ($status)
@@ -88,11 +104,13 @@ class Action
         return $string;
     }
 
+    // ----------- for clean and get requests
     public function request($name, $status = true)
     {
         return $this->clean($_REQUEST[$name], $status);
     }
 
+    // ----------- for get and convert date
     public function request_date($name)
     {
         $name = $this->request('birthday', false);
@@ -100,7 +118,7 @@ class Action
         return strtotime($name);
     }
 
-
+    // ----------- convert shamsi date to miladi date
     public function shamsi_to_miladi($date)
     {
         $pieces = explode("/", $date);
@@ -112,6 +130,7 @@ class Action
         return $f;
     }
 
+    // ----------- convert miladi date to shamsi date
     public function miladi_to_shamsi($date)
     {
         $pieces = explode("-", $date);
@@ -123,6 +142,7 @@ class Action
         return $f;
     }
 
+    // ----------- for send sms to mobile number
     public function send_sms($mobile, $textMessage)
     {
         $webServiceURL = "";
@@ -142,6 +162,7 @@ class Action
         }
     }
 
+    // ----------- create random token
     public function get_token($length)
     {
         $token = "";
@@ -155,6 +176,10 @@ class Action
         return $token;
     }
 
+    // ----------- end main methods ------------------------------------------------------------------------------------
+
+    // ----------- start ADMINS ----------------------------------------------------------------------------------------
+    // ----------- for login admin
     public function admin_login($user, $pass)
     {
         $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `username`='$user' AND `password`='$pass' AND status=1");
@@ -170,6 +195,7 @@ class Action
         return false;
     }
 
+    // ----------- for check access (admin access)
     public function auth()
     {
         if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_access']))
@@ -177,6 +203,7 @@ class Action
         return false;
     }
 
+    // ----------- for check access (guest access)
     public function guest()
     {
         if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_access']))
@@ -184,6 +211,7 @@ class Action
         return true;
     }
 
+    // ----------- update last login of admin (logged)
     public function admin_update_last_login($id)
     {
         $now = strtotime(date('Y-m-d H:i:s'));
@@ -192,17 +220,20 @@ class Action
         return true;
     }
 
+    // ----------- get admin's data
     public function admin_get($id)
     {
         return $this->get_data("tbl_admin", $id);
     }
 
+    // ----------- get admin's data (logged)
     public function admin()
     {
         $id = $_SESSION['admin_id'];
         return $this->get_data("tbl_admin", $id);
     }
 
+    // ----------- update profile (logged admin)
     public function profile_edit($first_name, $last_name, $phone, $password)
     {
         $id = $this->admin()->id;
@@ -217,6 +248,10 @@ class Action
         if (!$this->result($result)) return false;
         return $id;
     }
+
+    // ----------- end ADMINS ------------------------------------------------------------------------------------------
+
+    // ----------- start USERS -----------------------------------------------------------------------------------------
 
     public function user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
     {
@@ -257,7 +292,10 @@ class Action
         return $this->get_data("tbl_user", $id);
     }
 
+    // ----------- end USERS -------------------------------------------------------------------------------------------
+
 
 }
+// ----------- end Action class ----------------------------------------------------------------------------------------
 
 
