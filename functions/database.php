@@ -88,6 +88,15 @@ class Action
         return $result->num_rows;
     }
 
+    // ----------- get all fields in table
+    public function table_list($teble)
+    {
+        $id = $this->admin()->id;
+        $result = $this->connection->query("SELECT * FROM `$teble` ORDER BY `id` DESC");
+        if (!$this->result($result)) return false;
+        return $result;
+    }
+
     // ----------- change status of field
     public function change_status($table, $id, $status)
     {
@@ -343,6 +352,11 @@ class Action
     // ----------- end ADMINS ------------------------------------------------------------------------------------------
 
     // ----------- start USERS -----------------------------------------------------------------------------------------
+
+    public function user_list()
+    {
+        return $this->table_list("tbl_user");
+    }
 
     public function user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
     {
