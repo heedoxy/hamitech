@@ -4,14 +4,12 @@ $database = new DB();
 $connection = $database->connect();
 $action = new Action();
 
-// ----------- check error ---------------------------------------------------------------------------------------------
-$error = false;
-if (isset($_SESSION['error'])) {
-    $error = true;
-    $error_val = $_SESSION['error'];
-    unset($_SESSION['error']);
-}
-// ----------- check error ---------------------------------------------------------------------------------------------
+// ----------- urls ----------------------------------------------------------------------------------------------------
+// main url for add , edit
+$main_url = "admin.php";
+// main url for remove , change status
+$current_url = $action->url();
+// ----------- urls ----------------------------------------------------------------------------------------------------
 
 // ----------- get data ------------------------------------------------------------------------------------------------
 $counter = 1;
@@ -20,7 +18,30 @@ $result = $connection->query("SELECT * FROM `tbl_admin` WHERE NOT `id`='$id' ORD
 if (!$action->result($result)) return false;
 // ----------- get data ------------------------------------------------------------------------------------------------
 
-$main_url = "admin.php";
+// ----------- delete --------------------------------------------------------------------------------------------------
+if (isset($_GET['remove'])) {
+    $id = $action->request('remove');
+    $_SESSION['error'] = !$action->admin_remove($id);
+    header("Location: $current_url");
+}
+// ----------- delete --------------------------------------------------------------------------------------------------
+
+// ----------- change status -------------------------------------------------------------------------------------------
+if (isset($_GET['status'])) {
+    $id = $action->request('status');
+    $_SESSION['error'] = !$action->admin_status($id);
+    header("Location: $current_url");
+}
+// ----------- change status -------------------------------------------------------------------------------------------
+
+// ----------- check error ---------------------------------------------------------------------------------------------
+$error = false;
+if (isset($_SESSION['error'])) {
+    $error = true;
+    $error_val = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+// ----------- check error ---------------------------------------------------------------------------------------------
 
 // ----------- start html :) ------------------------------------------------------------------------------------------
 include('header.php'); ?>
@@ -97,7 +118,7 @@ include('header.php'); ?>
                                             </td>
 
                                             <td class="text-center">
-                                                <a href="<?= $main_url ?>?status=<?= $row->id ?>">
+                                                <a href="<?= $current_url ?>?status=<?= $row->id ?>">
                                                     <?
                                                     if ($row->status) echo "<status-indicator positive pulse></status-indicator>";
                                                     else echo "<status-indicator negative pulse></status-indicator>";
@@ -110,7 +131,7 @@ include('header.php'); ?>
                                                     <i class="fa fa-pencil-square-o"></i>
                                                 </a>
                                                 |
-                                                <a href="<?= $main_url ?>?remove=<?= $row->id ?>">
+                                                <a href="<?= $current_url ?>?remove=<?= $row->id ?>">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </td>
@@ -130,4 +151,3 @@ include('header.php'); ?>
     </div>
 
 <? include('footer.php'); ?>
-// ----------- end html :) ---------------------------------------------------------------------------------------------
