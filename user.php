@@ -3,7 +3,7 @@ $database = new DB();
 $connection = $database->connect();
 $action = new Action();
 $url = $action->url();
-$list = "user-list";
+$list = "user-list.php";
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
 $edit = false;
