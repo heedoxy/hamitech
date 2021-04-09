@@ -92,8 +92,7 @@ $user_id = $_SESSION['user_id'];
                         </a>
                         <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                             <ul class="dropdown-user">
-                                <li><a href="setting.php"><i class="ti-user"></i> پروفایل </a></li>
-                                <li><a href="setting.php"><i class="ti-settings"></i> تنظیمات کاربری</a></li>
+                                <li><a href="profile.php"><i class="ti-user"></i> پروفایل </a></li>
                                 <li><a href="logout.php"><i class="fa fa-power-off"></i> خروج</a></li>
                             </ul>
                         </div>
@@ -110,9 +109,14 @@ $user_id = $_SESSION['user_id'];
             <!-- Sidebar navigation-->
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
+
+                    <li class="nav-label">پنل</li>
+
                     <li> <a class="has-arrow" href="panel.php" aria-expanded="false"><i class="fa fa-building"></i><span class="hide-menu">داشبورد</span></a></li>
 
                     <hr class="m-0">
+
+                    <li class="nav-label">مدیریت</li>
 
                     <li> <a class="has-arrow" href="user-list.php" aria-expanded="false"><i class="fa fa-building"></i><span class="hide-menu">کاربران</span></a></li>
 
