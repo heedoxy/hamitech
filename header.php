@@ -81,7 +81,7 @@ if ($action->guest()) {
 
                 <!-- ----------- show name of user ----------------------------------------------------------------- -->
                 <ul class="navbar-nav mr-auto mt-md-0">
-                    <span class="user_name"> كاربر | <? echo $action->admin()->first_name; ?></span>
+                    <span class="user_name"> كاربر | <? echo $action->admin()->first_name . " " .$action->admin()->last_name; ?></span>
                 </ul>
                 <!-- ----------- show name of user ----------------------------------------------------------------- -->
 
