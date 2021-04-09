@@ -4,6 +4,35 @@ $database = new DB();
 $connection = $database->connect();
 $action = new Action();
 
+// ----------- urls ----------------------------------------------------------------------------------------------------
+// main url for add , edit
+$main_url = "user.php";
+// main url for remove , change status
+$current_url = $action->url();
+// ----------- urls ----------------------------------------------------------------------------------------------------
+
+// ----------- get data ------------------------------------------------------------------------------------------------
+$counter = 1;
+$result = $connection->query("SELECT * FROM `tbl_user` ORDER BY `id` DESC");
+if (!$action->result($result)) return false;
+// ----------- get data ------------------------------------------------------------------------------------------------
+
+// ----------- delete --------------------------------------------------------------------------------------------------
+if (isset($_GET['remove'])) {
+    $id = $action->request('remove');
+    $_SESSION['error'] = !$action->user_remove($id);
+    header("Location: $current_url");
+}
+// ----------- delete --------------------------------------------------------------------------------------------------
+
+// ----------- change status -------------------------------------------------------------------------------------------
+if (isset($_GET['status'])) {
+    $id = $action->request('status');
+    $_SESSION['error'] = !$action->user_status($id);
+    header("Location: $current_url");
+}
+// ----------- change status -------------------------------------------------------------------------------------------
+
 // ----------- check error ---------------------------------------------------------------------------------------------
 $error = false;
 if (isset($_SESSION['error'])) {
@@ -13,13 +42,7 @@ if (isset($_SESSION['error'])) {
 }
 // ----------- check error ---------------------------------------------------------------------------------------------
 
-// ----------- get data ------------------------------------------------------------------------------------------------
-$counter = 1;
-$result = $connection->query("SELECT * FROM `tbl_user` ORDER BY `id` DESC");
-if (!$action->result($result)) return false;
-// ----------- get data ------------------------------------------------------------------------------------------------
-
-// ----------- start html :) ------------------------------------------------------------------------------------------
+// ----------- start html :) -------------------------------------------------------------------------------------------
 include('header.php'); ?>
 
 <div class="page-wrapper">
@@ -91,7 +114,7 @@ include('header.php'); ?>
                                         <td class="text-center"><?= $row->national_code ?></td>
 
                                         <td class="text-center">
-                                            <a href="user.php?status=<?= $row->id ?>">
+                                            <a href="<?= $current_url ?>?status=<?= $row->id ?>">
                                                 <?
                                                 if ($row->status) echo "<status-indicator positive pulse></status-indicator>";
                                                 else echo "<status-indicator negative pulse></status-indicator>";
@@ -100,11 +123,11 @@ include('header.php'); ?>
                                         </td>
 
                                         <td class="text-center">
-                                            <a href="user.php?edit=<?= $row->id ?>">
+                                            <a href="<?= $main_url ?>?edit=<?= $row->id ?>">
                                                 <i class="fa fa-pencil-square-o"></i>
                                             </a>
                                             |
-                                            <a href="user.php?remove=<?= $row->id ?>">
+                                            <a href="<?= $current_url ?>?remove=<?= $row->id ?>">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
