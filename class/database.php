@@ -7,101 +7,74 @@ session_start();
 include('jdf.php');
 date_default_timezone_set("Asia/Tehran");
 
-class DB
+class MyDB
 {
 
     protected $_DB_HOST = 'localhost';
     protected $_DB_USER = 'root';
     protected $_DB_PASS = '';
     protected $_DB_NAME = 'hamitech';
-    protected $connection;
+    protected $_conn;
 
     public function __construct()
     {
-        $this->connection = mysqli_connect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS,  $this->_DB_NAME);
-        if ($this->connection) {
-            $this->connection->query("SET NAMES 'utf8'");
-            $this->connection->query("SET CHARACTER SET 'utf8'");
-            $this->connection->query("SET character_setconnectionection = 'utf8'");
+        $this->_conn = mysqli_connect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS);
+        if ($this->_conn) {
+            $this->_conn->query("SET NAMES 'utf8'");
+            $this->_conn->query("SET CHARACTER SET 'utf8'");
+            $this->_conn->query("SET character_set_connection = 'utf8'");
+
         }
+        date_default_timezone_set("Asia/Tehran");
     }
 
     public function connect()
     {
-        return $this->connection;
+        if (!mysqli_select_db($this->_conn, $this->_DB_NAME)) {
+            die("1st time failed<br>");
+        }
+        date_default_timezone_set("Asia/Tehran");
+        return $this->_conn;
     }
-
 }
 
 class Action
 {
 
-    public $connection;
+    protected $_conn;
 
     public function __construct()
     {
-        $db = new DB();
-        $this->connection = $db->connect();
+        $db = new MyDB();
+        $this->_conn = $db->connect();
+        date_default_timezone_set("Asia/Tehran");
     }
 
-    public function result($result)
+
+    public function dbconnect()
     {
-        if (!$result) {
-            $errorno = mysqli_errno($this->connection);
-            $error = mysqli_error($this->connection);
-            echo "Error NO : $errorno";
-            echo "<br>";
-            echo "Error Message : $error";
-            echo "<hr>";
-            return 0;
-        }
-        return 1;
+        $db = new MyDB();
+        $this->connect = $db->connect();
+        date_default_timezone_set("Asia/Tehran");
     }
 
-    public function get_data($table, $id, $data)
+    public function cleansql($string)
     {
-        $result = $this->connection->query("SELECT * FROM `$table` WHERE id='$id'");
-        if (!$this->result($result)) return 0;
-        $row = $result->fetch_object();
-        return $row->{$data};
-    }
-
-    public function get_date_shamsi($timestamp)
-    {
-        return $this->miladi_to_shamsi(date('Y-m-d', $timestamp));
-    }
-
-    public function remove_data($table, $id)
-    {
-        $result = $this->connection->query("DELETE FROM `$table` WHERE id='$id'");
-        if (!$this->result($result)) return 0;
-        return 1;
-    }
-
-    public function clean($string, $status = true)
-    {
-        if ($status)
-            $string = htmlspecialchars($string);
+        $string = htmlspecialchars($string);
         $string = stripslashes($string);
         $string = strip_tags($string);
-        $string = mysqli_real_escape_string($this->connection, $string);
+        $string = mysqli_real_escape_string($this->_conn, $string);
         return $string;
     }
 
-    public function request($name, $status = true)
-    {
-        return $this->clean($_REQUEST[$name], $status);
+
+    public function cleantext($string) {
+        $string = stripslashes($string);
+        $string = mysqli_real_escape_string($this->_conn,$string);
+        return $string;
     }
 
-    public function request_date($name)
-    {
-        $name = $this->request('birthday', false);
-        $name = $this->shamsi_to_miladi($name);
-        return strtotime($name);
-    }
-
-
-    public function shamsi_to_miladi($date)
+    public function condate($date)
     {
         $pieces = explode("/", $date);
         $day = $pieces[2];
@@ -112,7 +85,7 @@ class Action
         return $f;
     }
 
-    public function miladi_to_shamsi($date)
+    public function condatesh($date)
     {
         $pieces = explode("-", $date);
         $year = $pieces[0];
@@ -123,16 +96,29 @@ class Action
         return $f;
     }
 
+    public function tbl_counter($tbl) {
+        $result = $this->_conn->query("SELECT * FROM $tbl");
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+        return mysqli_num_rows($result);
+    }
+
     public function send_sms($mobile, $textMessage)
     {
+
         $webServiceURL = "";
         $webServiceSignature = "";
         $webServiceNumber = "";
-        $textMessage = mb_convert_encoding($textMessage, "UTF-8");
+
+        $textMessage = mb_convert_encoding($textMessage, "UTF-8"); // encoding to utf-8
+
         $parameters['signature'] = $webServiceSignature;
         $parameters['toMobile'] = $mobile;
         $parameters['smsBody'] = $textMessage;
         $parameters['retStr'] = ""; // return reference send status and mobile and report code for delivery
+
         try {
             $con = new SoapClient($webServiceURL);
             $responseSTD = (array)$con->Send($parameters);
@@ -143,99 +129,143 @@ class Action
 
     }
 
-    public function get_token($length)
+    public function getToken($length)
     {
         $token = "";
         $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $codeAlphabet .= "abcdefghijklmnopqrstuvwxyz";
         $codeAlphabet .= "0123456789";
         $max = strlen($codeAlphabet);
+
         for ($i = 0; $i < $length; $i++) {
             $token .= $codeAlphabet[rand(0, $max - 1)];
         }
+
         return $token;
     }
 
-    public function admin_login($user, $pass)
-    {
-        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `username`='$user' AND `password`='$pass' AND status=1");
-        if (!$this->result($result)) return 0;
-        $rowcount = mysqli_num_rows($result);
-        $row = $result->fetch_object();
+    public function admin_login($user,$pass) {
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE username='$user' AND password='$pass' AND status=1");
 
-        if ($rowcount > 0) {
-            $this->admin_update_last_login($row->id);
-            $_SESSION['user_ll'] = $this->admin_get_last_login($row->id);
-            $_SESSION['user_id'] = $row->id;
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+
+        if($rowcount>0){
+            $this -> admin_update_last_login($rowd['id']);
+            $_SESSION['user_ll'] = $this->admin_get_last_login($rowd['id']);
+            $_SESSION['user_id'] = $rowd['id'];
             return 1;
         }
 
         return 0;
     }
 
-    public function admin_update_last_login($id)
-    {
-        $now = strtotime(date('Y-m-d H:i:s'));
-        $result = $this->connection->query("UPDATE `tbl_admin` SET `last_login`='$now' WHERE `id`='$id'");
-        if (!$this->result($result)) return 0;
+    public function admin_update_last_login($id) {
+        $now=strtotime(date('Y-m-d H:i:s'));
+        $result = $this->_conn->query("UPDATE tbl_admin SET last_login='$now' WHERE id='$id'");
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
         return 1;
     }
 
-    public function admin_get_last_login($id)
-    {
-        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `id`='$id'");
-        if (!$this->result($result)) return 0;
-        $row = $result->fetch_object();
-        return $row->last_login;
+    public function admin_get_last_login($id) {
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE id='$id'");
+
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+
+        if($rowcount>0){
+            return $rowd['last_login'];
+        }
+        return 0;
     }
 
-    public function admin_get_data($id, $data)
-    {
-        return $this->get_data("tbl_admin", $id, $data);
+    public function admin_get_name($id) {
+        $result = $this->_conn->query("SELECT * FROM tbl_admin WHERE id='$id'");
+
+        if (!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+
+        if($rowcount>0){
+            return $rowd['fullname'];
+        }
+        return 0;
     }
 
-    public function user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
-    {
-        $now = time();
+    public function user_add($fullname, $codemeli ,$phone, $pin, $bdate, $status) {
+        $now=strtotime(date('Y-m-d H:i:s'));
 
-        $result = $this->connection->query("INSERT INTO `tbl_user`
-        (`first_name`,`last_name`,`national_code`,`phone`,`username`,`password`,`birthday`,`status`,`created_at`) 
+        $result = $this->_conn->query("INSERT INTO `tbl_user`
+        (`fullname`, `codemeli`, `phone`, `pin`, `bdate`, `status`, `cdate`) 
         VALUES
-        ('$first_name','$last_name','$national_code','$phone','$username','$password','$birthday','$status','$now')");
-        if (!$this->result($result)) return 0;
+	    ('$fullname','$codemeli','$phone','$pin','$bdate','$status','$now')");
 
-        return $this->connection->insert_id;
+        if (!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        return $this->_conn->insert_id;
     }
 
-    public function user_edit($id, $first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
-    {
-        $now = time();
-        $result = $this->connection->query("UPDATE `tbl_user` SET 
-        `first_name`='$first_name',
-        `last_name`='$last_name',
-        `national_code`='$national_code',
+    public function user_edit($id, $fullname, $codemeli ,$phone, $pin, $bdate, $status) {
+        $result = $this->_conn->query("UPDATE `tbl_user` SET 
+        `fullname`='$fullname',
+        `codemeli`='$codemeli',
         `phone`='$phone',
-        `username`='$username',
-        `password`='$password',
-        `birthday`='$birthday',
-        `status`='$status',
-        `updated_at`='$now'
+        `pin`='$pin',
+        `bdate`='$bdate',
+        `status`='$status'
         WHERE `id` ='$id'");
 
-        if (!$this->result($result)) return 0;
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
 
         return $id;
     }
+    public function user_remove($id) {
+        $result = $this->_conn->query("DELETE FROM tbl_user WHERE id=$id");
 
-    public function user_remove($id)
-    {
-        return $this->remove_data("tbl_user", $id);
+        if (!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return 0;
+        }
+
+        return 1;
     }
 
-    public function user_get_data($id, $data)
-    {
-        return $this->get_data("tbl_user", $id, $data);
+    public function user_get_data($id, $data) {
+        $result = $this->_conn->query("SELECT * FROM tbl_user WHERE id='$id'");
+        if(!$result) {
+            echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
+            return false;
+        }
+        $rowcount=mysqli_num_rows($result);
+        $rowd=mysqli_fetch_assoc($result);
+        if($rowcount>0){
+            return $rowd[$data];
+        }
     }
+
 
 
 }
