@@ -262,7 +262,7 @@ class Action
     {
         $now = time();
         $result = $this->connection->query("INSERT INTO `tbl_admin`
-        (`first_name`,`last_name`,`phone`,`username`,`password`,`access`,,`status`,`created_at`) 
+        (`first_name`,`last_name`,`phone`,`username`,`password`,`access`,`status`,`created_at`) 
         VALUES
         ('$first_name','$last_name','$phone','$username','$password','$access','$status','$now')");
         if (!$this->result($result)) return false;
