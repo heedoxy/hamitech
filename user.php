@@ -1,111 +1,203 @@
-<?
-include('header.php');
-$edit = 0;
-$connect = new MyDB();
-$con = $connect->connect();
+<? require_once "class/database.php";
+
+$database = new DB();
+$connection = $database->connect();
 $action = new Action();
 
-$error=0;
-if(isset($_SESSION['error'])) {
-    $error=1;
+// ----------- get data from database when action is edit --------------------------------------------------------------
+$edit = 0;
+if (isset($_GET['edit'])) {
+    $edit = 1;
+    $id = $action->request('edit');
+    $result = $connection->query("SELECT * FROM tbl_user WHERE id ='$id'");
+    if (!$action->result($result)) return 0;
+    if (!$result->num_rows) header("Location: user-list.php");
+    $row = $result->fetch_object();
+}
+// ----------- get data from database when action is edit --------------------------------------------------------------
+
+// ----------- check error ---------------------------------------------------------------------------------------------
+$error = 0;
+if (isset($_SESSION['error'])) {
+    $error = 1;
     $error_val = $_SESSION['error'];
     unset($_SESSION['error']);
 }
-?>
+// ----------- check error ---------------------------------------------------------------------------------------------
 
+// ----------- add or edit ---------------------------------------------------------------------------------------------
+if (isset($_POST['submit'])) {
+
+    $first_name = $action->request('first_name');
+    $last_name = $action->request('last_name');
+    $national_code = $action->request('national_code');
+    $phone = $action->request('phone');
+    $username = $action->request('username');
+    $password = $action->request('password');
+    $birthday = $action->request_date('birthday');
+
+    $status = $action->request('status');
+
+    if ($edit) {
+        $id = $action->request('edit');
+        $command = $action->user_edit($id, $first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
+    } else {
+        $command = $action->user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
+    }
+
+    if ($command) {
+        $_SESSION['error'] = 0;
+    } else {
+        $_SESSION['error'] = 1;
+    }
+
+    header("Location: user.php?edit=$command");
+
+}
+// ----------- add or edit ---------------------------------------------------------------------------------------------
+
+// ----------- delete --------------------------------------------------------------------------------------------------
+if (isset($_GET['remove'])) {
+    $id = $action->request('remove');
+    $_SESSION['error'] = !$action->user_remove($id);
+    header("Location: user-list.php");
+}
+// ----------- delete --------------------------------------------------------------------------------------------------
+
+// ----------- start html :) ------------------------------------------------------------------------------------------
+include('header.php'); ?>
+    <!-- Page wrapper  -->
     <div class="page-wrapper">
-
+        <!-- Bread crumb -->
         <div class="row page-titles">
+
             <div class="col-md-12 align-self-center text-right">
-                <h3 class="text-primary">کاربران</h3> </div>
+                <?php if (!isset($_GET['action'])) { ?>
+                    <h3 class="text-primary">ثبت کاربر</h3>
+                <?php } else { ?>
+                    <h3 class="text-primary">ویرایش کاربر</h3>
+                <?php } ?>
+            </div>
+
             <div class="col-md-12 align-self-center text-right">
+
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">کاربران</a></li>
+                    <li class="breadcrumb-item"><a href="panel.php">خانه</a></li>
+                    <li class="breadcrumb-item"><a href="user-list.php">کاربران</a></li>
+                    <?php if ($edit) { ?>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">ثبت</a></li>
+                    <?php } else { ?>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">ویرایش</a></li>
+                    <?php } ?>
                 </ol>
+
             </div>
         </div>
-
+        <!-- End Bread crumb -->
+        <!-- Container fluid  -->
         <div class="container-fluid">
+            <!-- Start Page Content -->
+            <? if ($error) {
+                if ($error_val) { ?>
+                    <div class="alert alert-danger">
+                        عملیات ناموفق بود .
+                    </div>
+                <? } else { ?>
+                    <div class="alert alert-info text-right">
+                        عملیات موفق بود .
+                    </div>
+                <? }
+            } ?>
 
             <div class="row">
-                <a class="add-user mb-2" href="user.php">ثبت کاربر <i class="fas fa-plus"></i></a>
-            </div>
+                <div class="col-lg-6">
 
-            <div class="row">
-                <div class="col-12">
-
-                    <? if($error) {
-                        if($error_val){  ?>
-                            <div class="alert alert-danger">
-                                عملیات ناموفق بود .
+                    <? if ($edit) { ?>
+                        <div class="row m-b-0">
+                            <div class="col-lg-6">
+                                <p class="text-right m-b-0">
+                                    تاریخ ثبت :
+                                    <?= $action->get_date_shamsi($row->created_at) ?>
+                                </p>
                             </div>
-                        <? }else{ ?>
-                            <div class="alert alert-info text-right">
-                                عملیات موفق بود .
-                            </div>
-                        <? } } ?>
+                            <? if ($row->updated_at) { ?>
+                                <div class="col-lg-6">
+                                    <p class="text-right m-b-0">
+                                        آخرین ویرایش :
+                                        <?= $action->get_date_shamsi($row->updated_at) ?>
+                                    </p>
+                                </div>
+                            <? } ?>
+                        </div>
+                    <? } ?>
 
                     <div class="card">
                         <div class="card-body">
+                            <div class="basic-form">
+                                <form action="" method="post" enctype="multipart/form-data">
 
-                            <div class="table-responsive m-t-5">
-                                <table id="example23"
-                                       class="display nowrap table table-hover table-striped table-bordered"
-                                       cellspacing="0" width="100%">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center">ردیف</th>
-                                        <th class="text-center">نام</th>
-                                        <th class="text-center">کدملی</th>
-                                        <th class="text-center">وضعیت</th>
-                                        <th class="text-center">مدیریت</th>
-                                    </tr>
-                                    </thead>
+                                    <div class="form-group">
+                                        <input type="text" name="first_name" class="form-control input-default "
+                                               placeholder="نام"
+                                               value="<?= ($edit) ? $row->first_name : "" ?>">
+                                    </div>
 
-                                    <tbody class="text-center">
-                                    <?
-                                    $counter = 1;
-                                    $result = mysqli_query($con, "SELECT * FROM tbl_user");
-                                    if (!$result) {
-                                        echo mysqli_errno($this->_conn) . mysqli_error($this->_conn);
-                                        return false;
-                                    }
-                                    while($row = mysqli_fetch_assoc($result))
-                                    {
+                                    <div class="form-group">
+                                        <input type="text" name="last_name" class="form-control input-default "
+                                               placeholder="نام خانوادگی"
+                                               value="<?= ($edit) ? $row->last_name : "" ?>">
+                                    </div>
 
-                                        ?>
-                                        <tr class="text-center">
+                                    <div class="form-group">
+                                        <input type="number" name="national_code" class="form-control"
+                                               placeholder="کدملی"
+                                               value="<?= ($edit) ? $row->national_code : "" ?>">
+                                    </div>
 
-                                            <td class="text-center"><? echo $counter++; ?></td>
-                                            <td class="text-center"><? echo $row['fullname']; ?></td>
-                                            <td class="text-center"><? echo $row['codemeli']; ?></td>
-                                            <td class="text-center"><?
-                                                if($row['status']==1) echo "<status-indicator positive pulse></status-indicator>";
-                                                else echo "<status-indicator negative pulse></status-indicator>";
-                                                ?></td>
-                                            <td class="text-center">
-                                                <a href="user.php?edit=<? echo $row['id']; ?>"><i class="fa fa-pencil-square-o"></i></a>
-                                                |
-                                                <a href="user.php?remove=<? echo $row['id']; ?>"><i class="fa fa-trash"></i></a>
-                                            </td>
+                                    <div class="form-group">
+                                        <input type="text" name="phone" class="form-control input-default "
+                                               placeholder="تلفن همراه"
+                                               value="<?= ($edit) ? $row->phone : "" ?>">
+                                    </div>
 
-                                        </tr>
-                                        <?
-                                    }
-                                    ?>
-                                    </tbody>
-                                </table>
+                                    <div class="form-group">
+                                        <input type="text" name="username" class="form-control input-default "
+                                               placeholder="نام کاربری"
+                                               value="<?= ($edit) ? $row->username : "" ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="password" class="form-control input-default "
+                                               placeholder="رمز عبور"
+                                               value="<?= ($edit) ? $row->password : "" ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" id="date" name="birthday" class="form-control"
+                                               placeholder="تاریخ تولد"
+                                               value="<?= ($edit) ? $action->get_date_shamsi($row->birthday) : "" ?>">
+                                    </div>
+
+                                    <div class="form-actions">
+
+                                        <label class="float-right">
+                                            <input type="checkbox" class="float-right m-1" name="status" value="1"
+                                                <? if ($edit && $row->status) echo "checked"; ?> >
+                                            فعال
+                                        </label>
+
+                                        <button type="submit" name="submit" class="btn btn-success sweet-success">
+                                            <i class="fa fa-check"></i> ثبت
+                                        </button>
+                                        <a href="user-list.php"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
+        <!-- End PAge Content -->
     </div>
-
-<?
-include('footer.php');
-?>
+<? include('footer.php'); ?>
