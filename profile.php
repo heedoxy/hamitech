@@ -66,7 +66,12 @@ include('header.php'); ?>
         <!-- ----------- start breadcrumb ---------------------------------------------------------------------- -->
         <div class="col-md-12 align-self-center text-right">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="panel.php">خانه</a></li>
+                <li class="breadcrumb-item">
+                    <a href="panel.php">
+                        <i class="fa fa-dashboard"></i>
+                        خانه
+                    </a>
+                </li>
                 <li class="breadcrumb-item"><a href="user-list.php">پروفایل</a></li>
             </ol>
         </div>
