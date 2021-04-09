@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
 <?
 require_once "class/database.php";
 $action = new Action();
+
 if(!isset($_SESSION['user_id'])){
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
     return 0;
 }
+
 $user_id = $_SESSION['user_id'];
 ?>
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
