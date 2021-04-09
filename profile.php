@@ -26,15 +26,11 @@ if (isset($_POST['submit'])) {
     // get fields
     $first_name = $action->request('first_name');
     $last_name = $action->request('last_name');
-    $national_code = $action->request('national_code');
     $phone = $action->request('phone');
-    $username = $action->request('username');
     $password = $action->request('password');
-    $birthday = $action->request_date('birthday');
-    $status = $action->request('status');
 
     // send query
-    $command = $action->user_edit($id, $first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
+    $command = $action->profile_edit($first_name, $last_name, $phone, $password);
 
 
     // check errors
@@ -59,7 +55,11 @@ include('header.php'); ?>
 
         <!-- ----------- start title --------------------------------------------------------------------------- -->
         <div class="col-md-12 align-self-center text-right">
-            <h3 class="text-primary">مشخصات شما</h3>
+            <h3 class="text-primary">
+                مشخصات شما
+                |
+                <?= $action->admin()->username ?>
+            </h3>
         </div>
         <!-- ----------- end title ----------------------------------------------------------------------------- -->
 
@@ -135,12 +135,6 @@ include('header.php'); ?>
                                     <input type="text" name="phone" class="form-control input-default "
                                            placeholder="تلفن همراه"
                                            value="<?= $row->phone ?>">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" name="username" class="form-control input-default "
-                                           placeholder="نام کاربری"
-                                           value="<?= $row->username ?>">
                                 </div>
 
                                 <div class="form-group">
