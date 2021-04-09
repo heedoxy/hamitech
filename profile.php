@@ -99,14 +99,14 @@ include('header.php'); ?>
                     <div class="col-lg-6">
                         <p class="text-right m-b-0">
                             تاریخ ثبت :
-                            <?= $action->get_date_shamsi($row->created_at) ?>
+                            <?= $action->time_to_shamsi($row->created_at) ?>
                         </p>
                     </div>
                     <? if ($row->updated_at) { ?>
                         <div class="col-lg-6">
                             <p class="text-right m-b-0">
                                 آخرین ویرایش :
-                                <?= $action->get_date_shamsi($row->updated_at) ?>
+                                <?= $action->time_to_shamsi($row->updated_at) ?>
                             </p>
                         </div>
                     <? } ?>
