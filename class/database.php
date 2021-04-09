@@ -64,7 +64,7 @@ class Action
         $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         return $url;
     }
-    
+
     // ----------- for check result of query
     public function result($result)
     {
@@ -295,6 +295,19 @@ class Action
     public function user_remove($id)
     {
         return $this->remove_data("tbl_user", $id);
+    }
+
+    public function user_status($id)
+    {
+        $status = $this->user_get($id)->status;
+        $status = !$status;
+        $now = time();
+        $result = $this->connection->query("UPDATE `tbl_user` SET 
+        `status`='$status',
+        `updated_at`='$now'
+        WHERE `id` ='$id'");
+        if (!$this->result($result)) return false;
+        return $id;
     }
 
     public function user_get($id)
