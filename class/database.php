@@ -165,12 +165,36 @@ class Action
 
         if ($rowcount > 0) {
             $this->admin_update_last_login($row->id);
-            $_SESSION['user_ll'] = $this->admin_get_last_login($row->id);
-            $_SESSION['user_id'] = $row->id;
+            $_SESSION['admin_last_login'] = $this->admin_get_last_login($row->id);
+            $_SESSION['admin_id'] = $row->id;
+            $_SESSION['admin_access'] = $row->access;
             return 1;
         }
 
         return 0;
+    }
+
+    public function admin()
+    {
+        $id = $_SESSION['admin_id'];
+        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `id`='$id' ");
+        if (!$this->result($result)) return 0;
+        $row = $result->fetch_object();
+        return $row;
+    }
+
+    public function auth()
+    {
+        if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_access']))
+            return true;
+        return false;
+    }
+
+    public function guest()
+    {
+        if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_access']))
+            return false;
+        return true;
     }
 
     public function admin_update_last_login($id)
