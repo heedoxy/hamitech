@@ -14,6 +14,7 @@ class DB
 {
 
     // ----------- properties
+    protected $_DB_HOST = 'localhost';
     protected $_DB_USER = 'root';
     protected $_DB_PASS = '';
     protected $_DB_NAME = 'hamitech';
