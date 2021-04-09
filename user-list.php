@@ -79,7 +79,7 @@ include('header.php'); ?>
 
         <!-- ----------- add button ---------------------------------------------------------------------------- -->
         <div class="row">
-            <a class="add-user mb-2" href="user.php"> ثبت کاربر <i class="fas fa-plus"></i></a>
+            <a class="add-user mb-2" href="<?= $main_url ?>"> ثبت کاربر <i class="fas fa-plus"></i></a>
         </div>
         <!-- ----------- add button ---------------------------------------------------------------------------- -->
 
