@@ -199,7 +199,7 @@ include('header.php'); ?>
                                         <i class="fa fa-check"></i> ثبت
                                     </button>
 
-                                    <a href="<?= $list_url ?>"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+                                    <a href="<?= $list_url ?>"><span name="back" class="btn btn-inverse">بازگشت به لیست</span></a>
 
                                 </div>
 
