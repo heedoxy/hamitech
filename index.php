@@ -1,5 +1,5 @@
 <?
-include('class/database.php');
+include('functions/database.php');
 $action = new Action();
 
 // check admin access

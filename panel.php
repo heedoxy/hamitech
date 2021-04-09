@@ -1,5 +1,5 @@
 <?
-require_once "class/database.php";
+require_once "functions/database.php";
 $action = new Action();
 
 include('header.php');
