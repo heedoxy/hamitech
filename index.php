@@ -2,6 +2,12 @@
 include('class/database.php');
 $action = new Action();
 
+// check admin access
+if ($action->auth()) {
+    echo "<script type='text/javascript'>window.location.href = 'panel.php';</script>";
+    return 0;
+}
+
 // ----------- check error ---------------------------------------------------------------------------------------------
 $error = 0;
 if (isset($_SESSION['error'])) {
