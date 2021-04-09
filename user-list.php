@@ -92,7 +92,7 @@ include('header.php'); ?>
 
                                             <td class="text-center">
                                                 <?
-                                                if ($row->status == 1) echo "<status-indicator positive pulse></status-indicator>";
+                                                if ($row->status) echo "<status-indicator positive pulse></status-indicator>";
                                                 else echo "<status-indicator negative pulse></status-indicator>";
                                                 ?>
                                             </td>
