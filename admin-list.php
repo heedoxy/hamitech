@@ -20,6 +20,8 @@ $result = $connection->query("SELECT * FROM `tbl_admin` WHERE NOT `id`='$id' ORD
 if (!$action->result($result)) return false;
 // ----------- get data ------------------------------------------------------------------------------------------------
 
+$main_url = "admin.php";
+
 // ----------- start html :) ------------------------------------------------------------------------------------------
 include('header.php'); ?>
 
@@ -95,18 +97,20 @@ include('header.php'); ?>
                                             </td>
 
                                             <td class="text-center">
-                                                <?
-                                                if ($row->status) echo "<status-indicator positive pulse></status-indicator>";
-                                                else echo "<status-indicator negative pulse></status-indicator>";
-                                                ?>
+                                                <a href="<?= $main_url ?>?status=<?= $row->id ?>">
+                                                    <?
+                                                    if ($row->status) echo "<status-indicator positive pulse></status-indicator>";
+                                                    else echo "<status-indicator negative pulse></status-indicator>";
+                                                    ?>
+                                                </a>
                                             </td>
 
                                             <td class="text-center">
-                                                <a href="user.php?edit=<?= $row->id ?>">
+                                                <a href="<?= $main_url ?>?edit=<?= $row->id ?>">
                                                     <i class="fa fa-pencil-square-o"></i>
                                                 </a>
                                                 |
-                                                <a href="user.php?remove=<?= $row->id ?>">
+                                                <a href="<?= $main_url ?>?remove=<?= $row->id ?>">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </td>
