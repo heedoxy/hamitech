@@ -5,9 +5,9 @@ $connection = $database->connect();
 $action = new Action();
 
 // ----------- check error ---------------------------------------------------------------------------------------------
-$error = 0;
+$error = false;
 if (isset($_SESSION['error'])) {
-    $error = 1;
+    $error = true;
     $error_val = $_SESSION['error'];
     unset($_SESSION['error']);
 }
@@ -16,7 +16,7 @@ if (isset($_SESSION['error'])) {
 // ----------- get data ------------------------------------------------------------------------------------------------
 $counter = 1;
 $result = $connection->query("SELECT * FROM `tbl_user` ORDER BY `id` DESC");
-if (!$action->result($result)) return 0;
+if (!$action->result($result)) return false;
 // ----------- get data ------------------------------------------------------------------------------------------------
 
 // ----------- start html :) ------------------------------------------------------------------------------------------
