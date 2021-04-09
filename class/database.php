@@ -218,6 +218,22 @@ class Action
         return $this->get_data("tbl_admin", $id, $data);
     }
 
+    public function profile_edit($first_name, $last_name, $phone, $password)
+    {
+        $id = $this->admin()->id;
+        $now = time();
+        $result = $this->connection->query("UPDATE `tbl_admin` SET 
+        `first_name`='$first_name',
+        `last_name`='$last_name',
+        `phone`='$phone',
+        `password`='$password'
+        WHERE `id` ='$id'");
+
+        if (!$this->result($result)) return 0;
+
+        return $id;
+    }
+
     public function user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
     {
         $now = time();
