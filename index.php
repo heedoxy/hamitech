@@ -1,33 +1,4 @@
-<?
-include('class/database.php');
-$action = new Action();
-
-// ----------- check error ---------------------------------------------------------------------------------------------
-$error = 0;
-if (isset($_SESSION['error'])) {
-    $error = 1;
-    $error_val = $_SESSION['error'];
-    unset($_SESSION['error']);
-}
-// ----------- check error ---------------------------------------------------------------------------------------------
-
-// ----------- check login ---------------------------------------------------------------------------------------------
-if (isset($_POST['sub1'])) {
-
-    $user = $action->request('user');
-    $pass = $action->request('pass');
-
-    $command = $action->admin_login($user, $pass);
-
-    if (!$command) {
-        $_SESSION['error'] = 1;
-        header("Location: index.php");
-    }
-
-    header("Location: panel.php");
-}
-// ----------- check login ---------------------------------------------------------------------------------------------
-?>
+<? include('class/database.php'); ?>
 
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -68,15 +39,17 @@ if (isset($_POST['sub1'])) {
                     <div class="login-content card">
                         <div class="login-form">
                             <h4>ورود</h4>
-
-                            <? if ($error) {
-                                if ($error_val) { ?>
+                            <?
+                            if (isset($_GET['error'])) {
+                                if ($_GET['error'] == 1) {
+                                    ?>
                                     <div class="alert alert-danger">
                                         نام کاربری یا پسورد درست وارد نشده است
                                     </div>
-                                <? }
-                            } ?>
-
+                                    <?
+                                }
+                            }
+                            ?>
                             <form action="" method="POST">
                                 <div class="form-group">
                                     <label>نام کاربری</label>
@@ -121,4 +94,16 @@ if (isset($_POST['sub1'])) {
 <script src="js/scripts.js"></script>
 
 </body>
+<?
+if (isset($_POST['sub1'])) {
+    $action = new Action();
+    $user = $action->cleansql($_POST['user']);
+    $pass = $action->cleansql($_POST['pass']);
+    if ($action->admin_login($user,$pass)){
+        echo "<script type='text/javascript'>window.location.href = 'panel.php';</script>";
+    } else {
+        echo "<script type='text/javascript'>window.location.href = 'index.php?error=1';</script>";
+    }
+}
+?>
 </html>
