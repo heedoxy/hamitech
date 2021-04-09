@@ -266,6 +266,15 @@ class Action
         return $id;
     }
 
+    // ----------- for show all admins
+    public function admin_list()
+    {
+        $id = $this->admin()->id;
+        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE NOT `id`='$id' ORDER BY `id` DESC");
+        if (!$this->result($result)) return false;
+        return $result;
+    }
+
     // ----------- add an admin
     public function admin_add($first_name, $last_name, $phone, $username, $password, $status, $access)
     {
