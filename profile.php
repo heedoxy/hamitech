@@ -4,7 +4,7 @@ $connection = $database->connect();
 $action = new Action();
 
 // ----------- get data from database  --------------------------------------------------------------
-$id = $_SESSION['user_id'];
+$id = $action->admin()->id;
 $result = $connection->query("SELECT * FROM tbl_admin WHERE id ='$id'");
 if (!$action->result($result)) return 0;
 if (!$result->num_rows) header("Location: user-list.php");
