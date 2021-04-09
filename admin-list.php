@@ -101,7 +101,9 @@ include('header.php'); ?>
                                         <th class="text-center">ردیف</th>
                                         <th class="text-center">نام</th>
                                         <th class="text-center">نام خانوادگی</th>
+                                        <th class="text-center">نام کاربری</th>
                                         <th class="text-center">سطح دسترسی</th>
+                                        <th class="text-center">آخرین بازدید</th>
                                         <th class="text-center">وضعیت</th>
                                         <th class="text-center">مدیریت</th>
                                     </tr>
@@ -114,9 +116,14 @@ include('header.php'); ?>
                                             <td class="text-center"><?= $counter++ ?></td>
                                             <td class="text-center"><?= $row->first_name ?></td>
                                             <td class="text-center"><?= $row->last_name ?></td>
+                                            <td class="text-center"><?= $row->username ?></td>
 
                                             <td class="text-center">
                                                 <?= ($row->access) ? "مدیر کل" : "ندارد" ?>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <?= ($row->last_login) ? $action->time_to_shamsi($row->last_login) : "عدم ورود" ?>
                                             </td>
 
                                             <td class="text-center">
