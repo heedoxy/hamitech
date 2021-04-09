@@ -4,21 +4,21 @@ $connection = $database->connect();
 $action = new Action();
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
-$edit = 0;
+$edit = false;
 if (isset($_GET['edit'])) {
-    $edit = 1;
+    $edit = true;
     $id = $action->request('edit');
     $result = $connection->query("SELECT * FROM tbl_user WHERE id ='$id'");
-    if (!$action->result($result)) return 0;
+    if (!$action->result($result)) return false;
     if (!$result->num_rows) header("Location: user-list.php");
     $row = $result->fetch_object();
 }
 // ----------- get data from database when action is edit --------------------------------------------------------------
 
 // ----------- check error ---------------------------------------------------------------------------------------------
-$error = 0;
+$error = false;
 if (isset($_SESSION['error'])) {
-    $error = 1;
+    $error = true;
     $error_val = $_SESSION['error'];
     unset($_SESSION['error']);
 }
