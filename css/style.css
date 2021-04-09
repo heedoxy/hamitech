@@ -383,7 +383,7 @@ textarea.form-control.input-default {
 }
 
 .bg-success {
-    background-color: #26dad2 !important;
+    background-color: #26dad2 ;
 }
 
 .bg-info {
@@ -1066,31 +1066,31 @@ h6.h1 {
 /*    Background Mixins
 --------------------------*/
 .bg-primary {
-    background: #4680ff !important;
+    background: #4680ff ;
     color: #ffffff;
     fill: #4680ff;
 }
 
 .bg-success {
-    background: #26dad2 !important;
+    background: #26dad2;
     color: #ffffff;
     fill: #26dad2;
 }
 
 .bg-info {
-    background: #62d1f3 !important;
+    background: #62d1f3 ;
     color: #ffffff;
     fill: #62d1f3;
 }
 
 .bg-danger {
-    background: #fc6180 !important;
+    background: #fc6180 ;
     color: #ffffff;
     fill: #fc6180;
 }
 
 .bg-warning {
-    background: #ffb64d !important;
+    background: #ffb64d ;
     color: #ffffff;
     fill: #ffb64d;
 }
