@@ -2,23 +2,28 @@
 
 Table tbl_admin{
   id int [pk, increment] // auto-increment
-  fullname varchar(100)
+  first_name varchar(50)
+  last_name varchar(50)
   phone varchar(20)
-  username varchar(100)
+  username varchar(100) [unique]
   password varchar(100)
   last_ip text
-  cdate bigint
-  status int
+  created_at bigint
+  access boolean
+  status boolean
 }
 
 
 Table tbl_user{
   id int [pk, increment] // auto-increment
-  fullname varchar(100)
-  codemeli varchar(10)
+  first_name varchar(50)
+  last_name varchar(50)
+  national_code varchar(10)
   phone varchar(20)
-  pin varchar(100)
-  bdate bigint
-  cdate bigint
-  status int
+  username varchar(50) [unique]
+  password varchar(50)
+  birthday bigint
+  created_at bigint
+  updated_at bigint
+  status boolean
 }
