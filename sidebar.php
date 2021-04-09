@@ -1,3 +1,8 @@
+<?
+require_once "class/database.php";
+$action = new Action();
+?>
+
 <!-- ----------- start sidebar ------------------------------------------------------------------------------------- -->
 <ul id="sidebarnav">
 
@@ -9,6 +14,19 @@
             <span class="hide-menu">داشبورد</span>
         </a>
     </li>
+
+    <hr class="m-0">
+
+    <? if ($action->admin()->access) { ?>
+
+        <li>
+            <a class="has-arrow" href="admin-list.php" aria-expanded="false">
+                <i class="fa fa-building"></i>
+                <span class="hide-menu">مدیران</span>
+            </a>
+        </li>
+
+    <? } ?>
 
     <hr class="m-0">
 
