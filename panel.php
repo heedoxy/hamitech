@@ -1,4 +1,9 @@
-<? include('header.php'); ?>
+<?
+require_once "class/database.php";
+$action = new Action();
+
+include('header.php');
+?>
 
     <div class="page-wrapper">
 
@@ -30,7 +35,7 @@
                                     <span><i class="fa fa-usd f-s-80 color-white"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <span class="text-white f-s-30">568120</span>
+                                    <span class="text-white f-s-30"><?= $action->admin_counter() ?></span>
                                     <br>
                                     <span class="text-white f-s-20">مدیران</span>
                                 </div>
@@ -47,7 +52,7 @@
                                     <span><i class="fa fa-shopping-cart f-s-80 color-white"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <span class="text-white f-s-30">1178</span>
+                                    <span class="text-white f-s-30"><?= $action->user_counter() ?></span>
                                     <br>
                                     <span class="text-white f-s-20">کاربران</span>
                                 </div>
