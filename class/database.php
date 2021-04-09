@@ -53,17 +53,17 @@ class Action
             echo "<br>";
             echo "Error Message : $error";
             echo "<hr>";
-            return 0;
+            return false;
         }
-        return 1;
+        return true;
     }
 
-    public function get_data($table, $id, $data)
+    public function get_data($table, $id)
     {
         $result = $this->connection->query("SELECT * FROM `$table` WHERE id='$id'");
-        if (!$this->result($result)) return 0;
+        if (!$this->result($result)) return false;
         $row = $result->fetch_object();
-        return $row->{$data};
+        return $row;
     }
 
     public function get_date_shamsi($timestamp)
@@ -74,8 +74,8 @@ class Action
     public function remove_data($table, $id)
     {
         $result = $this->connection->query("DELETE FROM `$table` WHERE id='$id'");
-        if (!$this->result($result)) return 0;
-        return 1;
+        if (!$this->result($result)) return false;
+        return true;
     }
 
     public function clean($string, $status = true)
@@ -140,7 +140,6 @@ class Action
         } catch (SoapFault $ex) {
             echo $ex->faultstring;
         }
-
     }
 
     public function get_token($length)
@@ -159,28 +158,16 @@ class Action
     public function admin_login($user, $pass)
     {
         $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `username`='$user' AND `password`='$pass' AND status=1");
-        if (!$this->result($result)) return 0;
+        if (!$this->result($result)) return false;
         $rowcount = mysqli_num_rows($result);
         $row = $result->fetch_object();
-
-        if ($rowcount > 0) {
+        if ($rowcount) {
             $this->admin_update_last_login($row->id);
-            $_SESSION['admin_last_login'] = $this->admin_get_last_login($row->id);
             $_SESSION['admin_id'] = $row->id;
             $_SESSION['admin_access'] = $row->access;
-            return 1;
+            return true;
         }
-
-        return 0;
-    }
-
-    public function admin()
-    {
-        $id = $_SESSION['admin_id'];
-        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `id`='$id' ");
-        if (!$this->result($result)) return 0;
-        $row = $result->fetch_object();
-        return $row;
+        return false;
     }
 
     public function auth()
@@ -201,21 +188,19 @@ class Action
     {
         $now = strtotime(date('Y-m-d H:i:s'));
         $result = $this->connection->query("UPDATE `tbl_admin` SET `last_login`='$now' WHERE `id`='$id'");
-        if (!$this->result($result)) return 0;
-        return 1;
+        if (!$this->result($result)) return false;
+        return true;
     }
 
-    public function admin_get_last_login($id)
+    public function admin_get($id)
     {
-        $result = $this->connection->query("SELECT * FROM `tbl_admin` WHERE `id`='$id'");
-        if (!$this->result($result)) return 0;
-        $row = $result->fetch_object();
-        return $row->last_login;
+        return $this->get_data("tbl_admin", $id);
     }
 
-    public function admin_get_data($id, $data)
+    public function admin()
     {
-        return $this->get_data("tbl_admin", $id, $data);
+        $id = $_SESSION['admin_id'];
+        return $this->get_data("tbl_admin", $id);
     }
 
     public function profile_edit($first_name, $last_name, $phone, $password)
@@ -229,22 +214,18 @@ class Action
         `password`='$password',
         `updated_at`='$now'
         WHERE `id` ='$id'");
-
-        if (!$this->result($result)) return 0;
-
+        if (!$this->result($result)) return false;
         return $id;
     }
 
     public function user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status)
     {
         $now = time();
-
         $result = $this->connection->query("INSERT INTO `tbl_user`
         (`first_name`,`last_name`,`national_code`,`phone`,`username`,`password`,`birthday`,`status`,`created_at`) 
         VALUES
         ('$first_name','$last_name','$national_code','$phone','$username','$password','$birthday','$status','$now')");
-        if (!$this->result($result)) return 0;
-
+        if (!$this->result($result)) return false;
         return $this->connection->insert_id;
     }
 
@@ -262,9 +243,7 @@ class Action
         `status`='$status',
         `updated_at`='$now'
         WHERE `id` ='$id'");
-
-        if (!$this->result($result)) return 0;
-
+        if (!$this->result($result)) return false;
         return $id;
     }
 
@@ -273,9 +252,9 @@ class Action
         return $this->remove_data("tbl_user", $id);
     }
 
-    public function user_get_data($id, $data)
+    public function user_get($id)
     {
-        return $this->get_data("tbl_user", $id, $data);
+        return $this->get_data("tbl_user", $id);
     }
 
 
