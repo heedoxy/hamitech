@@ -23,7 +23,7 @@ class DB
     // ----------- constructor
     public function __construct()
     {
-        $this->connection = mysqli_connect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS,  $this->_DB_NAME);
+        $this->connection = mysqli_connect($this->_DB_HOST, $this->_DB_USER, $this->_DB_PASS, $this->_DB_NAME);
         if ($this->connection) {
             $this->connection->query("SET NAMES 'utf8'");
             $this->connection->query("SET CHARACTER SET 'utf8'");
@@ -38,6 +38,7 @@ class DB
     }
 
 }
+
 // ----------- end DB class --------------------------------------------------------------------------------------------
 
 // ----------- start Action class --------------------------------------------------------------------------------------
@@ -56,6 +57,14 @@ class Action
 
     // ----------- start main methods ----------------------------------------------------------------------------------
 
+    // ----------- get current page url
+    public function url()
+    {
+        $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return $url;
+    }
+    
     // ----------- for check result of query
     public function result($result)
     {
