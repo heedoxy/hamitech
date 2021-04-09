@@ -3,6 +3,7 @@ $database = new DB();
 $connection = $database->connect();
 $action = new Action();
 $url = $action->url();
+$list = "user-list";
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
 $edit = false;
@@ -62,7 +63,7 @@ if (isset($_POST['submit'])) {
 if (isset($_GET['remove'])) {
     $id = $action->request('remove');
     $_SESSION['error'] = !$action->user_remove($id);
-    header("Location: user-list.php");
+    header("Location: $list");
 }
 // ----------- delete --------------------------------------------------------------------------------------------------
 
@@ -70,7 +71,7 @@ if (isset($_GET['remove'])) {
 if (isset($_GET['status'])) {
     $id = $action->request('status');
     $_SESSION['error'] = !$action->user_status($id);
-    header("Location: user-list.php");
+    header("Location: $list");
 }
 // ----------- change status -------------------------------------------------------------------------------------------
 
@@ -208,8 +209,11 @@ include('header.php'); ?>
                                     <button type="submit" name="submit" class="btn btn-success sweet-success">
                                         <i class="fa fa-check"></i> ثبت
                                     </button>
-                                    <a href="user-list.php"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+
+                                    <a href="<?= $list ?>"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+
                                 </div>
+
                             </form>
                         </div>
                     </div>
