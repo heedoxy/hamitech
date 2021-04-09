@@ -8,7 +8,7 @@ $action = new Action();
 // main url for add , edit
 $main_url = "admin.php";
 // main url for remove , change status
-$current_url = "admin-list.php";
+$list_url = "admin-list.php";
 // ----------- urls ----------------------------------------------------------------------------------------------------
 
 // ----------- get data ------------------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ if (!$action->result($result)) return false;
 if (isset($_GET['remove'])) {
     $id = $action->request('remove');
     $_SESSION['error'] = !$action->admin_remove($id);
-    header("Location: $current_url");
+    header("Location: $list_url");
 }
 // ----------- delete --------------------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ if (isset($_GET['remove'])) {
 if (isset($_GET['status'])) {
     $id = $action->request('status');
     $_SESSION['error'] = !$action->admin_status($id);
-    header("Location: $current_url");
+    header("Location: $list_url");
 }
 // ----------- change status -------------------------------------------------------------------------------------------
 
@@ -118,7 +118,7 @@ include('header.php'); ?>
                                             </td>
 
                                             <td class="text-center">
-                                                <a href="<?= $current_url ?>?status=<?= $row->id ?>">
+                                                <a href="<?= $list_url ?>?status=<?= $row->id ?>">
                                                     <?
                                                     if ($row->status) echo "<status-indicator positive pulse></status-indicator>";
                                                     else echo "<status-indicator negative pulse></status-indicator>";
@@ -131,7 +131,7 @@ include('header.php'); ?>
                                                     <i class="fa fa-pencil-square-o"></i>
                                                 </a>
                                                 |
-                                                <a href="<?= $current_url ?>?remove=<?= $row->id ?>">
+                                                <a href="<?= $list_url ?>?remove=<?= $row->id ?>">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </td>
