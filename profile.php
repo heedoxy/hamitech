@@ -147,7 +147,7 @@ include('header.php'); ?>
                                     <button type="submit" name="submit" class="btn btn-success sweet-success">
                                         <i class="fa fa-check"></i> ثبت
                                     </button>
-                                    <a href="user-list.php"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+                                    <a href="panel.php"><span name="back" class="btn btn-inverse">بازگشت</span></a>
                                 </div>
 
                             </form>
