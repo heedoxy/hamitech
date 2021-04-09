@@ -2,8 +2,13 @@
 $database = new DB();
 $connection = $database->connect();
 $action = new Action();
-$url = $action->url();
-$list = "user-list.php";
+
+// ----------- urls ----------------------------------------------------------------------------------------------------
+// main url for add , edit
+$main_url = "user.php";
+// main url for remove , change status
+$list_url = "user-list.php";
+// ----------- urls ----------------------------------------------------------------------------------------------------
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
 $edit = false;
@@ -54,7 +59,7 @@ if (isset($_POST['submit'])) {
     }
 
     // bye bye :)
-    header("Location: $url");
+    header("Location: $main_url?edit=$command");
 
 }
 // ----------- add or edit ---------------------------------------------------------------------------------------------
@@ -194,7 +199,7 @@ include('header.php'); ?>
                                         <i class="fa fa-check"></i> ثبت
                                     </button>
 
-                                    <a href="<?= $list ?>"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+                                    <a href="<?= $list_url ?>"><span name="back" class="btn btn-inverse">بازگشت</span></a>
 
                                 </div>
 
