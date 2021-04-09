@@ -2,8 +2,13 @@
 $database = new DB();
 $connection = $database->connect();
 $action = new Action();
-$main_url = $action->url();
+
+// ----------- urls ----------------------------------------------------------------------------------------------------
+// main url for add , edit
+$main_url = "admin.php";
+// main url for remove , change status
 $list_url = "admin-list.php";
+// ----------- urls ----------------------------------------------------------------------------------------------------
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
 $edit = false;
@@ -53,7 +58,7 @@ if (isset($_POST['submit'])) {
     }
 
     // bye bye :)
-    header("Location: $main_url");
+    header("Location: $main_url?edit=$command");
 
 }
 // ----------- add or edit ---------------------------------------------------------------------------------------------
