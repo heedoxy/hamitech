@@ -80,7 +80,7 @@ include('header.php'); ?>
 
             <!-- ----------- add button ---------------------------------------------------------------------------- -->
             <div class="row">
-                <a class="add-user mb-2" href="admin.php"> ثبت مدیر <i class="fas fa-plus"></i></a>
+                <a class="add-user mb-2" href="<?= $main_url ?>"> ثبت مدیر <i class="fas fa-plus"></i></a>
             </div>
             <!-- ----------- add button ---------------------------------------------------------------------------- -->
 
