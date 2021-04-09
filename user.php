@@ -1,5 +1,4 @@
 <? require_once "class/database.php";
-
 $database = new DB();
 $connection = $database->connect();
 $action = new Action();
@@ -28,6 +27,7 @@ if (isset($_SESSION['error'])) {
 // ----------- add or edit ---------------------------------------------------------------------------------------------
 if (isset($_POST['submit'])) {
 
+    // get fields
     $first_name = $action->request('first_name');
     $last_name = $action->request('last_name');
     $national_code = $action->request('national_code');
@@ -35,9 +35,9 @@ if (isset($_POST['submit'])) {
     $username = $action->request('username');
     $password = $action->request('password');
     $birthday = $action->request_date('birthday');
-
     $status = $action->request('status');
 
+    // send query
     if ($edit) {
         $id = $action->request('edit');
         $command = $action->user_edit($id, $first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
@@ -45,12 +45,14 @@ if (isset($_POST['submit'])) {
         $command = $action->user_add($first_name, $last_name, $national_code, $phone, $username, $password, $birthday, $status);
     }
 
+    // check errors
     if ($command) {
         $_SESSION['error'] = 0;
     } else {
         $_SESSION['error'] = 1;
     }
 
+    // bye bye :)
     header("Location: user.php?edit=$command");
 
 }
@@ -66,11 +68,12 @@ if (isset($_GET['remove'])) {
 
 // ----------- start html :) ------------------------------------------------------------------------------------------
 include('header.php'); ?>
-    <!-- Page wrapper  -->
+
     <div class="page-wrapper">
-        <!-- Bread crumb -->
+
         <div class="row page-titles">
 
+            <!-- ----------- start title --------------------------------------------------------------------------- -->
             <div class="col-md-12 align-self-center text-right">
                 <?php if (!isset($_GET['action'])) { ?>
                     <h3 class="text-primary">ثبت کاربر</h3>
@@ -78,9 +81,10 @@ include('header.php'); ?>
                     <h3 class="text-primary">ویرایش کاربر</h3>
                 <?php } ?>
             </div>
+            <!-- ----------- end title ----------------------------------------------------------------------------- -->
 
+            <!-- ----------- start breadcrumb ---------------------------------------------------------------------- -->
             <div class="col-md-12 align-self-center text-right">
-
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="panel.php">خانه</a></li>
                     <li class="breadcrumb-item"><a href="user-list.php">کاربران</a></li>
@@ -90,13 +94,15 @@ include('header.php'); ?>
                         <li class="breadcrumb-item"><a href="javascript:void(0)">ویرایش</a></li>
                     <?php } ?>
                 </ol>
-
             </div>
+            <!-- ----------- end breadcrumb ------------------------------------------------------------------------ -->
+
         </div>
-        <!-- End Bread crumb -->
-        <!-- Container fluid  -->
+
+        <!-- ----------- start main container ---------------------------------------------------------------------- -->
         <div class="container-fluid">
-            <!-- Start Page Content -->
+
+            <!-- ----------- start error list ---------------------------------------------------------------------- -->
             <? if ($error) {
                 if ($error_val) { ?>
                     <div class="alert alert-danger">
@@ -108,10 +114,12 @@ include('header.php'); ?>
                     </div>
                 <? }
             } ?>
+            <!-- ----------- end error list ------------------------------------------------------------------------ -->
 
             <div class="row">
                 <div class="col-lg-6">
 
+                    <!-- ----------- start history ----------------------------------------------------------------- -->
                     <? if ($edit) { ?>
                         <div class="row m-b-0">
                             <div class="col-lg-6">
@@ -130,7 +138,9 @@ include('header.php'); ?>
                             <? } ?>
                         </div>
                     <? } ?>
+                    <!-- ----------- end history ------------------------------------------------------------------- -->
 
+                    <!-- ----------- start row of fields ----------------------------------------------------------- -->
                     <div class="card">
                         <div class="card-body">
                             <div class="basic-form">
@@ -195,9 +205,14 @@ include('header.php'); ?>
                             </div>
                         </div>
                     </div>
+                    <!-- ----------- end row of fields ----------------------------------------------------------- -->
+
                 </div>
             </div>
         </div>
-        <!-- End PAge Content -->
+        <!-- ----------- end main container ------------------------------------------------------------------------ -->
+
     </div>
 <? include('footer.php'); ?>
+// ----------- end html :) ---------------------------------------------------------------------------------------------
+

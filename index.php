@@ -14,16 +14,20 @@ if (isset($_SESSION['error'])) {
 // ----------- check login ---------------------------------------------------------------------------------------------
 if (isset($_POST['sub1'])) {
 
+    // get fields
     $user = $action->request('user');
     $pass = $action->request('pass');
 
+    // send query
     $command = $action->admin_login($user, $pass);
 
+    // check errors
     if (!$command) {
         $_SESSION['error'] = 1;
         header("Location: index.php");
     }
 
+    // bye bye :)
     header("Location: panel.php");
 }
 // ----------- check login ---------------------------------------------------------------------------------------------
@@ -32,9 +36,9 @@ if (isset($_POST['sub1'])) {
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
+<!-- ----------- start head ---------------------------------------------------------------------------------------- -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,6 +54,7 @@ if (isset($_POST['sub1'])) {
     <link href="css/style.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 </head>
+<!-- ----------- end head ------------------------------------------------------------------------------------------ -->
 
 <body class="fix-header fix-sidebar">
 <!-- Preloader - style you can find in spinners.css -->
@@ -58,7 +63,7 @@ if (isset($_POST['sub1'])) {
         <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
     </svg>
 </div>
-<!-- Main wrapper  -->
+
 <div id="main-wrapper">
 
     <div class="unix-login">
@@ -69,6 +74,7 @@ if (isset($_POST['sub1'])) {
                         <div class="login-form">
                             <h4>ورود</h4>
 
+                            <!-- ----------- start error list ------------------------------------------------------ -->
                             <? if ($error) {
                                 if ($error_val) { ?>
                                     <div class="alert alert-danger">
@@ -76,26 +82,35 @@ if (isset($_POST['sub1'])) {
                                     </div>
                                 <? }
                             } ?>
+                            <!-- ----------- end error list -------------------------------------------------------- -->
 
+                            <!-- ----------- start login form ------------------------------------------------------ -->
                             <form action="" method="POST">
+
                                 <div class="form-group">
                                     <label>نام کاربری</label>
                                     <input type="text" class="form-control" name="user" placeholder="نام کاربری">
                                 </div>
+
                                 <div class="form-group">
                                     <label>پسورد</label>
                                     <input type="password" class="form-control" name="pass" placeholder="پسورد">
                                 </div>
+
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox"> مرا بخاطر بسپار
                                     </label>
-
-
                                 </div>
-                                <button type="submit" name="sub1" class="btn btn-primary btn-flat m-b-30 m-t-30">ورود
+
+                                <button type="submit" name="sub1" class="btn btn-primary btn-flat m-b-30 m-t-30">
+                                    ورود
                                 </button>
+
                             </form>
+                            <!-- ----------- end login form -------------------------------------------------------- -->
+
+
                         </div>
                     </div>
                 </div>
@@ -104,8 +119,8 @@ if (isset($_POST['sub1'])) {
     </div>
 
 </div>
-<!-- End Wrapper -->
 
+<!-- ----------- start scripts ------------------------------------------------------------------------------------- -->
 <!-- All Jquery -->
 <script src="js/lib/jquery/jquery.min.js"></script>
 <!-- Bootstrap tether Core JavaScript -->
@@ -119,6 +134,7 @@ if (isset($_POST['sub1'])) {
 <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
 <!--Custom JavaScript -->
 <script src="js/scripts.js"></script>
+<!-- ----------- end scripts --------------------------------------------------------------------------------------- -->
 
 </body>
 </html>

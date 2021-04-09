@@ -2,7 +2,8 @@
 require_once "class/database.php";
 $action = new Action();
 
-if(!isset($_SESSION['user_id'])){
+// check user access
+if (!isset($_SESSION['user_id'])) {
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
     return 0;
 }
@@ -10,12 +11,12 @@ if(!isset($_SESSION['user_id'])){
 $user_id = $_SESSION['user_id'];
 ?>
 
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
+<!-- ----------- start head ---------------------------------------------------------------------------------------- -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,8 +27,8 @@ $user_id = $_SESSION['user_id'];
     <title>پنل مدیریت</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="css/jquery.Bootstrap-PersianDateTimePicker.css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="css/jquery.Bootstrap-PersianDateTimePicker.css"/>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css">
@@ -36,7 +37,7 @@ $user_id = $_SESSION['user_id'];
     <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
 
     <!-- select2 -->
     <link href="css/select2.min.css" rel="stylesheet"/>
@@ -44,17 +45,15 @@ $user_id = $_SESSION['user_id'];
     <script src="js/select2.full.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/status-indicator@1.0.9/styles.css">
-
     <link type="text/css" rel="stylesheet" href="css/kamadatepicker.css"/>
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"/>
     <script type="text/javascript" src="class/ckeditor/ckeditor.js"></script>
-
     <script src="js/kamadatepicker.js"></script>
-
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
 </head>
+<!-- ----------- end head ------------------------------------------------------------------------------------------ -->
 
 
 <body class="fix-header fix-sidebar">
@@ -64,34 +63,35 @@ $user_id = $_SESSION['user_id'];
         <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
     </svg>
 </div>
-<!-- Main wrapper  -->
+
 <div id="main-wrapper">
-    <!-- header header  -->
+
+    <!-- ----------- start header ---------------------------------------------------------------------------------- -->
     <div class="header">
 
         <nav class="navbar top-navbar navbar-expand-md navbar-light">
-            <!-- Logo -->
+
+            <!-- ----------- show logo ----------------------------------------------------------------------------- -->
             <div class="navbar-header">
                 <a class="navbar-brand" href="panel.php">
-                    <!-- Logo text -->
                     <span><img src="images/hamitech.png" alt="homepage" height="50" class="dark-logo"/></span>
                 </a>
             </div>
-            <!-- End Logo -->
+            <!-- ----------- show logo ----------------------------------------------------------------------------- -->
+
             <div class="navbar-collapse">
-                <!-- toggle and nav items -->
+
+                <!-- ----------- show name of user ----------------------------------------------------------------- -->
                 <ul class="navbar-nav mr-auto mt-md-0">
-                    <!-- This is  -->
-
+                    <span class="user_name">كاربر : <? echo $action->admin_get_data($user_id, "fullname"); ?></span>
                 </ul>
-                <!-- User profile and search -->
+                <!-- ----------- show name of user ----------------------------------------------------------------- -->
+
+                <!-- ----------- start profile --------------------------------------------------------------------- -->
                 <ul class="navbar-nav my-lg-0">
-
-
-                    <!-- Profile -->
                     <li class="nav-item dropdown">
-                        <span class="user_name">كاربر : <? echo $action->admin_get_data($user_id,"fullname"); ?></span>
-                        <a class="nav-link dropdown-toggle text-muted  header_user" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-muted  header_user" href="#" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user user_icon"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right animated zoomIn">
@@ -102,24 +102,19 @@ $user_id = $_SESSION['user_id'];
                         </div>
                     </li>
                 </ul>
+                <!-- ----------- end profile ----------------------------------------------------------------------- -->
+
             </div>
         </nav>
     </div>
-    <!-- End header header -->
-    <!-- Left Sidebar  -->
+    <!-- ----------- end header ------------------------------------------------------------------------------------ -->
+
+    <!-- ----------- start left sidebar ---------------------------------------------------------------------------- -->
     <div class="left-sidebar">
-        <!-- Sidebar scroll-->
         <div class="scroll-sidebar">
-            <!-- Sidebar navigation-->
             <nav class="sidebar-nav">
-                <ul id="sidebarnav">
-
-                    <? include_once "sidebar.php"?>
-
-                </ul>
+                <? include_once "sidebar.php" ?>
             </nav>
-            <!-- End Sidebar navigation -->
         </div>
-        <!-- End Sidebar scroll-->
     </div>
-    <!-- End Left Sidebar  -->
+    <!-- ----------- end left sidebar ------------------------------------------------------------------------------ -->

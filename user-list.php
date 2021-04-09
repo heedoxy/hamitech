@@ -25,6 +25,7 @@ include('header.php'); ?>
     <div class="page-wrapper">
 
         <div class="row page-titles">
+            <!-- ----------- start breadcrumb ---------------------------------------------------------------------- -->
             <div class="col-md-12 align-self-center text-right">
                 <h3 class="text-primary">کاربران</h3></div>
             <div class="col-md-12 align-self-center text-right">
@@ -33,10 +34,13 @@ include('header.php'); ?>
                     <li class="breadcrumb-item"><a href="javascript:void(0)">کاربران</a></li>
                 </ol>
             </div>
+            <!-- ----------- end breadcrumb ------------------------------------------------------------------------ -->
+
         </div>
 
         <div class="container-fluid">
 
+            <!-- ----------- start error list ---------------------------------------------------------------------- -->
             <? if ($error) {
                 if ($error_val) { ?>
                     <div class="alert alert-danger">
@@ -48,11 +52,15 @@ include('header.php'); ?>
                     </div>
                 <? }
             } ?>
+            <!-- ----------- end error list ------------------------------------------------------------------------ -->
 
+            <!-- ----------- add button ---------------------------------------------------------------------------- -->
             <div class="row">
                 <a class="add-user mb-2" href="user.php"> ثبت کاربر <i class="fas fa-plus"></i></a>
             </div>
+            <!-- ----------- add button ---------------------------------------------------------------------------- -->
 
+            <!-- ----------- start row of table -------------------------------------------------------------------- -->
             <div class="row">
                 <div class="col-12">
 
@@ -108,7 +116,10 @@ include('header.php'); ?>
                     </div>
                 </div>
             </div>
+            <!-- ----------- end row of table ---------------------------------------------------------------------- -->
+
         </div>
     </div>
 
 <? include('footer.php'); ?>
+// ----------- end html :) ---------------------------------------------------------------------------------------------
