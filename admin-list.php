@@ -8,7 +8,7 @@ $action = new Action();
 // main url for add , edit
 $main_url = "admin.php";
 // main url for remove , change status
-$current_url = $action->url();
+$current_url = "admin-list.php";
 // ----------- urls ----------------------------------------------------------------------------------------------------
 
 // ----------- get data ------------------------------------------------------------------------------------------------
