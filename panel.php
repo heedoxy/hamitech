@@ -1,14 +1,17 @@
-<? include('header.php'); ?>
+<?
+include('header.php');
+?>
     <!-- Page wrapper  -->
     <div class="page-wrapper">
 
         <!-- Bread crumb -->
         <div class="row page-titles">
-            <div class="col-md-12 align-self-center text-right">
+            <div class="col-md-5 align-self-center text-right">
                 <h3 class="text-primary">داشبورد</h3> </div>
-            <div class="col-md-12 align-self-center text-right">
+            <div class="col-md-7 align-self-center text-left">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="javascript:void(0)">خانه</a></li>
+                    <li class="breadcrumb-item active">داشبورد</li>
                 </ol>
             </div>
         </div>
