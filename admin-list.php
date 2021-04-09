@@ -19,9 +19,7 @@ $list_url = "admin-list.php";
 
 // ----------- get data ------------------------------------------------------------------------------------------------
 $counter = 1;
-$id = $action->admin()->id;
-$result = $connection->query("SELECT * FROM `tbl_admin` WHERE NOT `id`='$id' ORDER BY `id` DESC");
-if (!$action->result($result)) return false;
+$result = $action->admin_list();
 // ----------- get data ------------------------------------------------------------------------------------------------
 
 // ----------- delete --------------------------------------------------------------------------------------------------
