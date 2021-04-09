@@ -226,7 +226,8 @@ class Action
         `first_name`='$first_name',
         `last_name`='$last_name',
         `phone`='$phone',
-        `password`='$password'
+        `password`='$password',
+        `updated_at`='$now'
         WHERE `id` ='$id'");
 
         if (!$this->result($result)) return 0;
