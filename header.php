@@ -83,7 +83,7 @@ $user_id = $_SESSION['user_id'];
 
                 <!-- ----------- show name of user ----------------------------------------------------------------- -->
                 <ul class="navbar-nav mr-auto mt-md-0">
-                    <span class="user_name">كاربر : <? echo $action->admin_get_data($user_id, "fullname"); ?></span>
+                    <span class="user_name"> كاربر : <? echo $action->admin()->first_name; ?></span>
                 </ul>
                 <!-- ----------- show name of user ----------------------------------------------------------------- -->
 
