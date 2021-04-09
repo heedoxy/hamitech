@@ -80,6 +80,18 @@ class Action
         return true;
     }
 
+    // ----------- change status of field
+    public function chane_status($table, $id, $status)
+    {
+        $now = time();
+        $result = $this->connection->query("UPDATE `$table` SET 
+        `status`='$status',
+        `updated_at`='$now'
+        WHERE `id` ='$id'");
+        if (!$this->result($result)) return false;
+        return $id;
+    }
+
     // ----------- get data from table
     public function get_data($table, $id)
     {
@@ -87,12 +99,6 @@ class Action
         if (!$this->result($result)) return false;
         $row = $result->fetch_object();
         return $row;
-    }
-
-    // ----------- convert timestamp to shamsi date
-    public function time_to_shamsi($timestamp)
-    {
-        return $this->miladi_to_shamsi(date('Y-m-d', $timestamp));
     }
 
     // ----------- remove data from table
@@ -126,6 +132,12 @@ class Action
         $name = $this->request('birthday', false);
         $name = $this->shamsi_to_miladi($name);
         return strtotime($name);
+    }
+
+    // ----------- convert timestamp to shamsi date
+    public function time_to_shamsi($timestamp)
+    {
+        return $this->miladi_to_shamsi(date('Y-m-d', $timestamp));
     }
 
     // ----------- convert shamsi date to miladi date
@@ -301,13 +313,7 @@ class Action
     {
         $status = $this->user_get($id)->status;
         $status = !$status;
-        $now = time();
-        $result = $this->connection->query("UPDATE `tbl_user` SET 
-        `status`='$status',
-        `updated_at`='$now'
-        WHERE `id` ='$id'");
-        if (!$this->result($result)) return false;
-        return $id;
+        return $this->chane_status('tbl_user', $id, $status);
     }
 
     public function user_get($id)
