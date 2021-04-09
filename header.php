@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <?
-require_once "class/database.php";
+include('class/database.php');
 $action = new Action();
 if(!isset($_SESSION['user_id'])){
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
@@ -28,11 +28,12 @@ $user_id = $_SESSION['user_id'];
     <!-- Custom CSS -->
     <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css">
     <!-- All Jquery -->
-
+    <!--    <script src="js/lib/jquery/jquery.min.js"></script>-->
     <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"  />
+
 
     <!-- select2 -->
     <link href="css/select2.min.css" rel="stylesheet"/>
@@ -47,8 +48,19 @@ $user_id = $_SESSION['user_id'];
 
     <script src="js/kamadatepicker.js"></script>
 
+
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
+    <script>
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function () {
+            $('.userlist').select2({
+                dir: "rtl"
+            });
+        });
+    </script>
+
 
 </head>
 
@@ -86,7 +98,7 @@ $user_id = $_SESSION['user_id'];
 
                     <!-- Profile -->
                     <li class="nav-item dropdown">
-                        <span class="user_name">كاربر : <? echo $action->admin_get_data($user_id,"fullname"); ?></span>
+                        <span class="user_name">كاربر : <? echo $action->admin_get_name($user_id); ?></span>
                         <a class="nav-link dropdown-toggle text-muted  header_user" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user user_icon"></i>
                         </a>
