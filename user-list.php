@@ -22,6 +22,7 @@ if (isset($_GET['remove'])) {
     $id = $action->request('remove');
     $_SESSION['error'] = !$action->user_remove($id);
     header("Location: $list_url");
+    return;
 }
 // ----------- delete --------------------------------------------------------------------------------------------------
 
@@ -30,6 +31,7 @@ if (isset($_GET['status'])) {
     $id = $action->request('status');
     $_SESSION['error'] = !$action->user_status($id);
     header("Location: $list_url");
+    return;
 }
 // ----------- change status -------------------------------------------------------------------------------------------
 
