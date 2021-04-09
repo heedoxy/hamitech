@@ -23,6 +23,7 @@ if (isset($_GET['remove'])) {
     $id = $action->request('remove');
     $_SESSION['error'] = !$action->admin_remove($id);
     header("Location: $list_url");
+    return ;
 }
 // ----------- delete --------------------------------------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ if (isset($_GET['status'])) {
     $id = $action->request('status');
     $_SESSION['error'] = !$action->admin_status($id);
     header("Location: $list_url");
+    return ;
 }
 // ----------- change status -------------------------------------------------------------------------------------------
 
@@ -114,7 +116,7 @@ include('header.php'); ?>
                                             <td class="text-center"><?= $row->last_name ?></td>
 
                                             <td class="text-center">
-                                                <?= ($row->access) ? "مدیر کل" : "" ?>
+                                                <?= ($row->access) ? "مدیر کل" : "ندارد" ?>
                                             </td>
 
                                             <td class="text-center">
