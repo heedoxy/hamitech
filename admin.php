@@ -3,6 +3,12 @@ $database = new DB();
 $connection = $database->connect();
 $action = new Action();
 
+// check admin access
+if (!$action->admin()->access) {
+    echo "<script type='text/javascript'>window.location.href = 'panel.php';</script>";
+    return 0;
+}
+
 // ----------- urls ----------------------------------------------------------------------------------------------------
 // main url for add , edit
 $main_url = "admin.php";
