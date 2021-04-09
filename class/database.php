@@ -242,19 +242,6 @@ class Action
         return true;
     }
 
-    // ----------- get admin's data
-    public function admin_get($id)
-    {
-        return $this->get_data("tbl_admin", $id);
-    }
-
-    // ----------- get admin's data (logged)
-    public function admin()
-    {
-        $id = $_SESSION['admin_id'];
-        return $this->get_data("tbl_admin", $id);
-    }
-
     // ----------- update profile (logged admin)
     public function profile_edit($first_name, $last_name, $phone, $password)
     {
@@ -269,6 +256,59 @@ class Action
         WHERE `id` ='$id'");
         if (!$this->result($result)) return false;
         return $id;
+    }
+
+    public function admin_add($first_name, $last_name, $phone, $username, $password, $status, $access)
+    {
+        $now = time();
+        $result = $this->connection->query("INSERT INTO `tbl_admin`
+        (`first_name`,`last_name`,`phone`,`username`,`password`,`access`,,`status`,`created_at`) 
+        VALUES
+        ('$first_name','$last_name','$phone','$username','$password','$access','$status','$now')");
+        if (!$this->result($result)) return false;
+        return $this->connection->insert_id;
+    }
+
+    public function admin_edit($id, $first_name, $last_name, $phone, $username, $password, $status, $access)
+    {
+        $now = time();
+        $result = $this->connection->query("UPDATE `tbl_admin` SET 
+        `first_name`='$first_name',
+        `last_name`='$last_name',
+        `phone`='$phone',
+        `username`='$username',
+        `password`='$password',
+        `access`='$access',
+        `status`='$status',
+        `updated_at`='$now'
+        WHERE `id` ='$id'");
+        if (!$this->result($result)) return false;
+        return $id;
+    }
+
+    public function admin_remove($id)
+    {
+        return $this->remove_data("tbl_admin", $id);
+    }
+
+    public function admin_status($id)
+    {
+        $status = $this->admin_get($id)->status;
+        $status = !$status;
+        return $this->chane_status('tbl_admin', $id, $status);
+    }
+
+    // ----------- get admin's data
+    public function admin_get($id)
+    {
+        return $this->get_data("tbl_admin", $id);
+    }
+
+    // ----------- get admin's data (logged)
+    public function admin()
+    {
+        $id = $_SESSION['admin_id'];
+        return $this->get_data("tbl_admin", $id);
     }
 
     // ----------- end ADMINS ------------------------------------------------------------------------------------------
