@@ -2,7 +2,7 @@
 require_once "class/database.php";
 $action = new Action();
 
-// check user access
+// check admin access
 if ($action->guest()) {
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
     return 0;
