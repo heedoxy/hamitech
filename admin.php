@@ -2,8 +2,8 @@
 $database = new DB();
 $connection = $database->connect();
 $action = new Action();
-$url = $action->url();
-$list = "admin-list";
+$main_url = $action->url();
+$list_url = "admin-list.php";
 
 // ----------- get data from database when action is edit --------------------------------------------------------------
 $edit = false;
@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
     }
 
     // bye bye :)
-    header("Location: $url");
+    header("Location: $main_url");
 
 }
 // ----------- add or edit ---------------------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ include('header.php'); ?>
                                         <i class="fa fa-check"></i> ثبت
                                     </button>
 
-                                    <a href="<?= $list ?>"><span name="back" class="btn btn-inverse">بازگشت</span></a>
+                                    <a href="<?= $list_url ?>"><span name="back" class="btn btn-inverse">بازگشت</span></a>
                                 </div>
 
                             </form>
