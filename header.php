@@ -7,8 +7,6 @@ if ($action->guest()) {
     echo "<script type='text/javascript'>window.location.href = 'index.php';</script>";
     return 0;
 }
-
-$user_id = $_SESSION['user_id'];
 ?>
 
 <!DOCTYPE html>
