@@ -80,8 +80,16 @@ class Action
         return true;
     }
 
+    // ----------- count of table's field
+    public function table_cunter($table)
+    {
+        $result = $this->connection->query("SELECT * FROM `$table` ");
+        if (!$this->result($result)) return false;
+        return $result->num_rows;
+    }
+
     // ----------- change status of field
-    public function chane_status($table, $id, $status)
+    public function change_status($table, $id, $status)
     {
         $now = time();
         $result = $this->connection->query("UPDATE `$table` SET 
@@ -258,6 +266,7 @@ class Action
         return $id;
     }
 
+    // ----------- add an admin
     public function admin_add($first_name, $last_name, $phone, $username, $password, $status, $access)
     {
         $now = time();
@@ -269,6 +278,7 @@ class Action
         return $this->connection->insert_id;
     }
 
+    // ----------- update admin's detail
     public function admin_edit($id, $first_name, $last_name, $phone, $username, $password, $status, $access)
     {
         $now = time();
@@ -286,18 +296,20 @@ class Action
         return $id;
     }
 
+    // ----------- remove admin
     public function admin_remove($id)
     {
         if ($this->admin_get($id)->access) return false;
         return $this->remove_data("tbl_admin", $id);
     }
 
+    // ----------- change admin's status
     public function admin_status($id)
     {
         if ($this->admin_get($id)->access) return false;
         $status = $this->admin_get($id)->status;
         $status = !$status;
-        return $this->chane_status('tbl_admin', $id, $status);
+        return $this->change_status('tbl_admin', $id, $status);
     }
 
     // ----------- get admin's data
@@ -311,6 +323,12 @@ class Action
     {
         $id = $_SESSION['admin_id'];
         return $this->get_data("tbl_admin", $id);
+    }
+
+    // ----------- count of admin
+    public function admin_counter()
+    {
+        return $this->table_cunter("tbl_admin");
     }
 
     // ----------- end ADMINS ------------------------------------------------------------------------------------------
@@ -355,12 +373,17 @@ class Action
     {
         $status = $this->user_get($id)->status;
         $status = !$status;
-        return $this->chane_status('tbl_user', $id, $status);
+        return $this->change_status('tbl_user', $id, $status);
     }
 
     public function user_get($id)
     {
         return $this->get_data("tbl_user", $id);
+    }
+
+    public function user_counter()
+    {
+        return $this->table_cunter("tbl_user");
     }
 
     // ----------- end USERS -------------------------------------------------------------------------------------------
